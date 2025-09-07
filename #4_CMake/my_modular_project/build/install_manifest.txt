@@ -1,0 +1,6 @@
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/build/_CPack_Packages/Linux/TZ/ModularProject-1.0.0-Linux/share/doc/ModularProject/README.md
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/build/_CPack_Packages/Linux/TZ/ModularProject-1.0.0-Linux/lib/libmath.a
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/build/_CPack_Packages/Linux/TZ/ModularProject-1.0.0-Linux/include/libmath/math_utils.h
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/build/_CPack_Packages/Linux/TZ/ModularProject-1.0.0-Linux/lib/libprint.a
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/build/_CPack_Packages/Linux/TZ/ModularProject-1.0.0-Linux/include/libprint/print_utils.h
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/build/_CPack_Packages/Linux/TZ/ModularProject-1.0.0-Linux/bin/modular_app

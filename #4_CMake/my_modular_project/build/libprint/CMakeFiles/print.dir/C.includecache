@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../libprint/include/libprint/print_utils.h
+
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/libprint/src/print_utils.c
+stdio.h
+-
+libprint/print_utils.h
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/libprint/src/libprint/print_utils.h
+

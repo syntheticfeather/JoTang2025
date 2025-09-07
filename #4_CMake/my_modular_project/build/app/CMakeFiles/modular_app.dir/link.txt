@@ -1,0 +1,1 @@
+/usr/bin/cc  -Wall -Wextra -Wpedantic -O3 -DNDEBUG -O3   CMakeFiles/modular_app.dir/src/main.c.o  -o modular_app  ../libmath/libmath.a ../libprint/libprint.a 

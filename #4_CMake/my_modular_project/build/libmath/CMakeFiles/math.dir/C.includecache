@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../libmath/include/libmath/math_utils.h
+
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/libmath/src/math_utils.c
+libmath/math_utils.h
+/home/gcc/Documents/JoTang2025/#4_CMake/my_modular_project/libmath/src/libmath/math_utils.h
+

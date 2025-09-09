@@ -4,5 +4,6 @@
         "utils.h": "c",
         "math_utils.h": "c",
         "print_utils.h": "c"
-    }
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

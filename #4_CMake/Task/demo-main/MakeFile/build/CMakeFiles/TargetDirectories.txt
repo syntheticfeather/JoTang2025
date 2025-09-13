@@ -1,0 +1,3 @@
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/build/CMakeFiles/rebuild_cache.dir
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/build/CMakeFiles/edit_cache.dir
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/build/CMakeFiles/my_project.dir

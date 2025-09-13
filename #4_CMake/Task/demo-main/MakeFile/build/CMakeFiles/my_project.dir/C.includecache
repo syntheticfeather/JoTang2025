@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../include/add.h
+mul.h
+../include/mul.h
+
+../include/hello.h
+
+../include/mul.h
+add.h
+../include/add.h
+
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/hello.c
+hello.h
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/hello.h
+stdio.h
+-
+add.h
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/add.h
+
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/lib/add.c
+add.h
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/lib/add.h
+hello.h
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/lib/hello.h
+
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/lib/mu.c
+mul.h
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/lib/mul.h
+hello.h
+/home/gcc/Documents/JoTang2025/#4_CMake/Task/demo-main/MakeFile/lib/hello.h
+

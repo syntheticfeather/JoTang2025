@@ -1,3 +1,5 @@
+### [我的github库](https://github.com/syntheticfeather/JoTang2025)
+
 # 对c文件的生命周期理解
 
 从多个c文件以及h文件到最后的可执行文件整个过程被称为(构建)，有以下步骤:
@@ -109,10 +111,20 @@
 
 `gcc -I include -o my_project src/main.c src/utils.c`
     
-    这是一步编译，也就是说没改过的也会编译一遍,效率低
+    这是一步编译，也就是说如果项目中有个别的文件进行修改，没改过的也会编译一遍,效率低
 
-`gcc -c src/main.c -I include -o main.o`  
-`gcc -c src/utils.c -I include -o utils.o`
+`gcc -E src/main.c -o main.i`
+`gcc -E src/utils.c -o utils.i`
+
+    -E 预处理，输出.i文件
+
+`gcc -S main.i -o main.s`  
+`gcc -S utils.i -o utils.s`
+
+    -S 汇编，输出.s文件
+
+`gcc -c main.s  -o main.o`  
+`gcc -c utils.s  -o utils.o`
 
     -Iinclude 告诉编译器在 include 目录中查找头文件，
 
@@ -126,7 +138,9 @@
 ---
 ### **Makefile思路:**
 
-    my_project/
+#### **见my_project_Makefile目录**
+
+    my_project_Makefile/
     ├── include/
     │   └── utils.h
     ├── src/
@@ -157,6 +171,7 @@ $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 # 清理生成的文件
+# make clean指令
 .PHONY: clean
 clean:
 	rm -f $(TARGET) $(OBJS)
@@ -171,20 +186,20 @@ clean:
 
 **输出:**
 
-```
+```bash
 gcc -Wall -I include -g -c src/main.c -o src/main.o
 gcc -Wall -I include -g -c src/utils.c -o src/utils.o
 gcc src/main.o src/utils.o -o my_program
 ```
 如果不clean再次编译，并且没有对c文件进行修改，那就只有:  
-```
+```bash
 gcc src/main.o src/utils.o -o my_program
 ```
 
 #### **这样看起来还是有点乱，my_program和.o文件到处都是**
 
 可以优化到都丢到bin目录下:
-```
+```makefile
 # 定义编译器
 CC = gcc
 # 编译选项：显示所有警告、包含头文件目录、调试信息
@@ -231,7 +246,9 @@ clean:
 ---
 ### **CMake思路:**
 
-    my_project/
+#### **见my_project_CMake目录**
+
+    my_project_CMake/
     ├── include/
     │   └── utils.h
     ├── src/
@@ -279,7 +296,8 @@ add_executable(my_project src/main.c src/utils.c)
   
 `./my_project`
 
-```
+**输出**
+```bash
 gcc@ubuntu:~/Documents/JoTang2025/#4_CMake/my_project/build$ cmake ..
 -- Configuring done
 -- Generating done
@@ -312,7 +330,9 @@ This is a message from the utils library!
 ---
 # 当然CMake肯定不止这些，我了解了一下模块化，打包
 
-### **新的目录:**
+#### 见my_modular_project目录
+
+### **模块化的目录:**
 
     my_modular_project/
     ├── CMakeLists.txt              # 根目录的 CMake
@@ -341,7 +361,7 @@ This is a message from the utils library!
 
 指令:
 
-```
+```bash
 # 进入项目目录
 cd my_modular_project
 
@@ -374,7 +394,7 @@ make
 
 在根目录的CMakeLists.txt文件中加上:
 
-```
+```cmake
 # 包含 CPack 模块
 include(CPack)
 
@@ -396,7 +416,7 @@ set(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${PROJECT_VERSION}-${CMAKE_SYSTEM_N
 
 ### **linux上:**
 
-```
+```cmake
 # 设置生成DEB和RPM包
 set(CPACK_GENERATOR "DEB;RPM;TGZ")
 
@@ -413,7 +433,7 @@ set(CPACK_RPM_PACKAGE_REQUIRES "libc >= 2.19")
 
 ### **windows上:**
 
-```
+```cmake
 # 设置生成NSIS安装程序
 set(CPACK_GENERATOR "NSIS;ZIP")
 
@@ -444,19 +464,22 @@ set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\modular_app.exe")
 
 ## 切换目录失败
 
-    gcc@ubuntu:~$ ls
-    Desktop  Documents  Downloads  Music  Pictures  Public  Templates  test  Videos
+```bash
+gcc@ubuntu:~$ ls
+Desktop  Documents  Downloads  Music  Pictures  Public  Templates  test  Videos
 
-    gcc@ubuntu:~$ cd Documents
-    gcc@ubuntu:~/Documents$ ls
-    '#1_git'   compile   JoTang2025   target
+gcc@ubuntu:~$ cd Documents
+gcc@ubuntu:~/Documents$ ls
+'#1_git'   compile   JoTang2025   target
 
-    gcc@ubuntu:~/Documents$ cd JoTang2025
-    gcc@ubuntu:~/Documents/JoTang2025$ ls
-    '#1_git'  '#2_markdown'  '#3_ubuntu'  '#4_CMake'   linux.md
+gcc@ubuntu:~/Documents$ cd JoTang2025
+gcc@ubuntu:~/Documents/JoTang2025$ ls
+'#1_git'  '#2_markdown'  '#3_ubuntu'  '#4_CMake'   linux.md
 
-    gcc@ubuntu:~/Documents/JoTang2025$ cd #4_CMake
-    gcc@ubuntu:~$
+gcc@ubuntu:~/Documents/JoTang2025$ cd #4_CMake
+gcc@ubuntu:~$
+```
+
 ### 为什么最后cd #4_CMake不能进去?
 
     linux系统中 # 为特殊字符，需要用\转义，不转义那就是引起注释的意思。
@@ -466,6 +489,8 @@ set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\modular_app.exe")
 `cd` 
 
     最后就会回到根目录
+
+### 所以给#4_CMake加个""包裹起来就可以了
 
 ## gcc编译后文件的名称差异
 
@@ -512,13 +537,13 @@ set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\modular_app.exe")
     但两者的.是完全不一样的含义
 
 
-## 哎还有个名称也就可以理解了，CMakeLists.txt
+## 哎基于上面a.out的理解，下面还有个名称也就可以理解了，CMakeLists.txt
 
 那我们linux不是不需要后缀名吗，可是实践发现linux上不能省去.txt，所以这是CMake的强制规定。
 
 ## 纯C语言的代码，Cmake为什么会问我C++的编译器在哪呢
 
-```
+```Cmake
 # cmake最低版本
 cmake_minimum_required(VERSION 3.10) 
 
@@ -540,33 +565,36 @@ add_executable(my_project src/main.c src/utils.c)
 
 **报错:**
 
-    gcc@ubuntu:~/Documents/JoTang2025/#4_CMake/my_project/build$ cmake ..
-    -- The C compiler identification is GNU 9.4.0
-    -- The CXX compiler identification is unknown
-    -- Check for working C compiler: /usr/bin/cc
-    -- Check for working C compiler: /usr/bin/cc -- works
-    -- Detecting C compiler ABI info
-    -- Detecting C compiler ABI info - done
-    -- Detecting C compile features
-    -- Detecting C compile features - done
-    CMake Error at CMakeLists.txt:5 (project):
-    No CMAKE_CXX_COMPILER could be found.
+```bash
+gcc@ubuntu:~/Documents/JoTang2025/#4_CMake/my_project/build$ cmake ..
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is unknown
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+CMake Error at CMakeLists.txt:5 (project):
+No CMAKE_CXX_COMPILER could be found. # 这里是报错的主要信息
 
-    Tell CMake where to find the compiler by setting either the environment
-    variable "CXX" or the CMake cache entry CMAKE_CXX_COMPILER to the full path
-    to the compiler, or to the compiler name if it is in the PATH.
+Tell CMake where to find the compiler by setting either the environment
+variable "CXX" or the CMake cache entry CMAKE_CXX_COMPILER to the full path
+to the compiler, or to the compiler name if it is in the PATH.
 
 
-    -- Configuring incomplete, errors occurred!
-    See also "/home/gcc/Documents/JoTang2025/#4_CMake/my_project/build/CMakeFiles/CMakeOutput.log".
-    See also "/home/gcc/Documents/JoTang2025/#4_CMake/my_project/build/CMakeFiles/CMakeError.log".
-
+-- Configuring incomplete, errors occurred!
+See also "/home/gcc/Documents/JoTang2025/#4_CMake/my_project/build/CMakeFiles/CMakeOutput.log".
+See also "/home/gcc/Documents/JoTang2025/#4_CMake/my_project/build/CMakeFiles/CMakeError.log".
+```
 **原因:**
 
 CMake因为某种原因，导致设计为C和C++都要检测，
 
-那么我们就需要指定我们的代码的语言
+**那么我们就需要指定我们的代码的语言**
 
+```cmake
 project(excuteFile LANGUAGES C)  # 添加 LANGUAGES C
 
 project(excuteFile LANGUAGES CXX)  # 添加 LANGUAGES C++
+```

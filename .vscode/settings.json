@@ -3,7 +3,11 @@
         "stdio.h": "c",
         "utils.h": "c",
         "math_utils.h": "c",
-        "print_utils.h": "c"
+        "print_utils.h": "c",
+        "add.h": "c",
+        "hello.h": "c",
+        "mul.h": "c"
     },
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic"
 }

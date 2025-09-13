@@ -1,0 +1,1 @@
+/usr/bin/cc  -Wall -Wextra -Werror   CMakeFiles/my_project.dir/lib/add.c.o CMakeFiles/my_project.dir/lib/mu.c.o CMakeFiles/my_project.dir/hello.c.o  -o my_project 

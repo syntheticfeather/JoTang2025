@@ -22,12 +22,12 @@ public class JwtInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String token = request.getHeader("Authorization");
 
-        // 终端打印出token
+        // 登录验证
         if (token == null) {
             throw new BusinessException(401, "请先登录");
         }
 
-        // 验证token
+        // 过期验证
         if (!jwtUtil.validateToken(token)) {
             throw new BusinessException(401, "登录已过期，请重新登录");
         }

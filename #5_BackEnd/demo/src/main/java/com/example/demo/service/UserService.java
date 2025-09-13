@@ -4,6 +4,7 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.PasswordResetRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UpdateUserRequest;
 import com.example.demo.entity.User;
 
 public interface UserService {
@@ -16,5 +17,7 @@ public interface UserService {
 
     public void resetPassword(Long userId, PasswordResetRequest request);
 
-    public User upgradeUser(Long userId);
+    public User upgradeAdmin(Long userId);
+
+    public User updateUser(UpdateUserRequest updateUserRequest, Long userId);
 }

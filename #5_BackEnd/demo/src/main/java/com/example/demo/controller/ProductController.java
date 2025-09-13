@@ -13,9 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.FilterRequest;
 import com.example.demo.entity.ApiResponse;
 import com.example.demo.entity.Product;
 import com.example.demo.service.ProductService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/products")
@@ -67,16 +70,11 @@ public class ProductController {
 
     // 在ProductController中添加筛选接口
     @GetMapping("/filter")
-    public ResponseEntity<ApiResponse<List<Product>>> filterProducts(
-            @RequestParam(required = false) String type,
-            @RequestParam(required = false) Double minPrice,
-            @RequestParam(required = false) Double maxPrice,
-            @RequestParam(required = false) Integer hours) {
+    public ResponseEntity<ApiResponse<List<Product>>> filter(
+            @Valid @RequestBody FilterRequest filterRequest) {
 
-        List<Product> products = productService.getProductsByFilters(type, minPrice, maxPrice, hours);
+        List<Product> products = productService.getProductsByFilters(filterRequest);
         return ResponseEntity.ok(ApiResponse.success(products));
     }
-
-
 
 }

@@ -49,7 +49,7 @@ public class OrderServiceImpl implements OrderService {
     // 取消订单
     @Transactional
     @Override
-    public Order cancelOrder(Long orderId, Long buyerId) {
+    public Order cancelOrder(Long orderId, Long userId, String role) {
         // 查询订单
         Order order = orderMapper.selectById(orderId);
         if (order == null) {
@@ -57,8 +57,11 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 检查权限：只有买家可以取消自己的订单
-        if (!order.getBuyerId().equals(buyerId)) {
-            throw new BusinessException(403, "无权取消此订单");
+        // ADMIN可以取消所有订单
+        if (!"ADMIN".equals(role)) {
+            if (order.getBuyerId().equals(userId)) {
+                throw new BusinessException(403, "无权取消此订单");
+            }
         }
 
         // 检查订单状态：只有"已下单"的订单可以取消

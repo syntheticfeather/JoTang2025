@@ -2,21 +2,18 @@ package com.example.demo.handler;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import com.example.demo.annotation.RequireRole;
 import com.example.demo.exception.BusinessException;
-import com.example.demo.utils.JwtUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+@Component
 public class RoleInterceptor implements HandlerInterceptor {
-
-    @Autowired
-    private JwtUtil jwtUtil;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

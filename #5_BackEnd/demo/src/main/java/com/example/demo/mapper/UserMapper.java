@@ -45,6 +45,9 @@ public interface UserMapper {
     User selectByUsername(String username);
 
     @Update("UPDATE user SET role = #{role} WHERE id = #{id}")
-    public void updateRole(User user);
+    public void upgradeAdmin(User user);
+
+    @Update("UPDATE user SET phone = #{phone}, update_time = #{now}, username = #{username} WHERE id = #{id}")
+    public void updateUser(Long id, String username, String phone, LocalDateTime now);
 
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.annotation.RequireRole;
@@ -15,6 +16,7 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.PasswordResetRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UpdateUserRequest;
 import com.example.demo.entity.ApiResponse;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
@@ -55,7 +57,7 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success(user));
     }
 
-    @PutMapping("/reset")
+    @PutMapping("/resetpwd")
     public ResponseEntity<ApiResponse<String>> resetPassword(HttpServletRequest request, @RequestBody PasswordResetRequest passwordResetRequest) {
         Long userId = (Long) request.getAttribute("userId");
         if (userId == null) {
@@ -67,9 +69,16 @@ public class UserController {
     }
 
     @RequireRole("ADMIN")
-    @PostMapping("/upgrade")
-    public ResponseEntity<ApiResponse<User>> upgradeUser(@RequestBody Long userId) {
-        User user = userService.upgradeUser(userId);
+    @PutMapping("/upgrade")
+    public ResponseEntity<ApiResponse<User>> upgradeAdmin(@RequestParam long userId) {
+        User user = userService.upgradeAdmin(userId);
         return ResponseEntity.ok(ApiResponse.success(user, "用户升级为管理员"));
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<ApiResponse<User>> updateUser(@RequestBody UpdateUserRequest updateUserRequest, HttpServletRequest request) {
+        User user = userService.updateUser(updateUserRequest, (Long) request.getAttribute("userId"));
+        return ResponseEntity.ok(ApiResponse.success(user, "用户信息更新成功"));
+    }
+
 }

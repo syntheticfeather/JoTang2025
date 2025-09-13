@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.dto.FilterRequest;
 import com.example.demo.entity.Product;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.ProductService;
@@ -61,7 +62,15 @@ public class ProductServiceImpl implements ProductService {
 
     // 在ProductService中添加方法
     @Override
-    public List<Product> getProductsByFilters(String type, Double minPrice, Double maxPrice, Integer hours) {
-        return productMapper.selectByFilters(type, minPrice, maxPrice, hours);
+    public List<Product> getProductsByFilters(FilterRequest filterRequest) {
+        String type = filterRequest.getType();
+        Double minPrice = filterRequest.getMinPrice();
+        Double maxPrice = filterRequest.getMaxPrice();
+        Integer hours = filterRequest.getHours();
+        String status = filterRequest.getStatus();
+        String sortField = filterRequest.getSortField();
+        String sortDirection = filterRequest.getSortDirection();
+
+        return productMapper.selectByFilters(type, minPrice, maxPrice, hours, status, sortField, sortDirection);
     }
 }

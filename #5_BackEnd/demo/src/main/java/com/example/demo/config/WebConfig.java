@@ -21,13 +21,13 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/user/login", "/user/register")
+                .excludePathPatterns("/users/login", "/users/register")
                 .order(1);
 
         // 角色权限拦截器（验证角色权限）
         registry.addInterceptor(roleInterceptor)
-                .addPathPatterns("/api/**")
-                .excludePathPatterns("/api/auth/login", "/api/auth/register")
+                .addPathPatterns("/**")
+                .excludePathPatterns("/users/login", "/users/register")
                 .order(10);
     }
 

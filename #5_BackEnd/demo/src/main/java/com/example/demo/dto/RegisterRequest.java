@@ -16,8 +16,11 @@ public class RegisterRequest {
     @Size(min = 6, message = "密码长度至少6位")
     private String password;
 
+    @Pattern(regexp = "^(USER)|(ADMIN)$")
+    private String role = "USER";
+
+    private String adminRegister;
+
     @Pattern(regexp = "^1[3-9]\\d{9}$", message = "手机号格式不正确")
     private String phone;
-
-    private Boolean AdminRegister;
 }

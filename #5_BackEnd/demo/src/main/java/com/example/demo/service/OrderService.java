@@ -8,7 +8,7 @@ public interface OrderService {
 
     public Order addOrder(Order order);
 
-    public Order cancelOrder(Long orderId, Long buyerId);
+    public Order cancelOrder(Long orderId, Long buyerId, String role);
 
     public Order getOrderById(Long id);
 

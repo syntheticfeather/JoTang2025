@@ -10,6 +10,7 @@ import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.PasswordResetRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.UpdateUserRequest;
 import com.example.demo.entity.User;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -44,14 +45,14 @@ public class UserServiceImpl implements UserService {
         user.setPhone(request.getPhone());
         user.setCreateTime(LocalDateTime.now());
         user.setUpdateTime(LocalDateTime.now());
-        if ("ADMIN".equals(user.getRole())) {
-            if (request.getAdminRegister() != true) {
+        if ("ADMIN".equals(request.getRole())) {
+            if (!"654321".equals(request.getAdminRegister())) {
                 throw new BusinessException(400, "只有管理员才能注册管理员");
             }
             user.setRole("ADMIN");
         }
-        User u = userMapper.selectByUsername(request.getUsername());
-        user.setId(u.getId());
+        userMapper.register(user);
+        user = userMapper.selectByUsername(request.getUsername());
         return user;
     }
 
@@ -78,7 +79,12 @@ public class UserServiceImpl implements UserService {
     // 根据ID获取用户
     @Override
     public User getUserById(Long userId) {
-        return userMapper.selectById(userId);
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new ResourceNotFoundException("用户不存在");
+        }
+        return user;
+
     }
 
     /**
@@ -119,13 +125,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User upgradeUser(Long userId){
+    public User upgradeAdmin(Long userId) {
         User user = userMapper.selectById(userId);
         if (user == null) {
             throw new ResourceNotFoundException("用户不存在");
         }
+        if (!"USER".equals(user.getRole())) {
+            throw new BusinessException(400, "用户已是管理员");
+        }
         user.setRole("ADMIN");
-        userMapper.updateRole(user);
+        userMapper.upgradeAdmin(user);
         return user;
+    }
+
+    @Override
+    public User updateUser(UpdateUserRequest updateUserRequest, Long userId) {
+        String username = updateUserRequest.getUsername();
+        String phone = updateUserRequest.getPhone();
+        User user = userMapper.selectById(userId);
+        if (username.equals(user.getUsername())) {
+            throw new BusinessException(400, "新用户名与旧用户名相同");
+        }
+        if (userMapper.selectByUsername(username) != null) {
+            throw new BusinessException(400, "新用户名已存在");
+        }
+        userMapper.updateUser(userId, username, phone, LocalDateTime.now());
+        return userMapper.selectById(userId);
     }
 }

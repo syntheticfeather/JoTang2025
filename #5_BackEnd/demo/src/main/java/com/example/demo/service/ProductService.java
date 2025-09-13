@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.demo.dto.FilterRequest;
 import com.example.demo.entity.Product;
 
 public interface ProductService {
@@ -17,5 +18,5 @@ public interface ProductService {
 
     public ArrayList<Product> getProductsList();
 
-    public List<Product> getProductsByFilters(String type, Double minPrice, Double maxPrice, Integer hours);
+    public List<Product> getProductsByFilters(FilterRequest filterRequest);
 }

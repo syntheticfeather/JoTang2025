@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.ApiResponse;
@@ -37,12 +38,12 @@ public class OrderController {
     }
 
     // 取消订单
-    @PostMapping("/{orderId}/cancel")
-    public ResponseEntity<ApiResponse<Order>> cancelOrder(@PathVariable Long orderId, HttpServletRequest request) {
+    @PostMapping("/cancel")
+    public ResponseEntity<ApiResponse<Order>> cancelOrder(@RequestParam Long orderId, HttpServletRequest request) {
         // 从请求属性中获取用户ID
         Long buyerId = (Long) request.getAttribute("userId");
-
-        Order canceledOrder = orderService.cancelOrder(orderId, buyerId);
+        String role = (String) request.getAttribute("role");
+        Order canceledOrder = orderService.cancelOrder(orderId, buyerId, role);
         return ResponseEntity.ok(ApiResponse.success(canceledOrder, "订单取消成功"));
     }
 

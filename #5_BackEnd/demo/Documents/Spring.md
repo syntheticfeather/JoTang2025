@@ -252,7 +252,7 @@ mybatis:
 
 # password加密
 
-采用BCryptPasswordEncoder加密密码。(其实就一行，调用方法没了)。
+采用BCryptPasswordEncoder加密密码。(其实就一行，调用方法，然后没了)。
 
 ```java
 @Component
@@ -277,14 +277,106 @@ if (!for_check && passwordb.length > 72) {
     throw new IllegalArgumentException("password cannot be more than 72 bytes");
 }
 ```
-密码的字节数不能超过72字节，所以我们需要注意一下。
-我给设置的是max = 64，留一定空间，防止出现问题。
 
-jwt的用户验证
+    密码的字节数不能超过72字节，所以我们需要注意一下。
 
-分类
+    我给设置的是max = 64，留一定空间，防止出现问题。
+
+# jwt的用户验证
+
+## 1.生成token
+
+采用jwt自带的工具类生成token。
+
+```java
+// 生成JWT token
+public String generateToken(Long userId, String username, String role) {
+    return Jwts.builder()
+            .setSubject(userId.toString())
+            .claim("username", username)
+            .claim("role", role)
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + expiration))
+            .signWith(key)
+            .compact();
+}
+```
+
+其中最重要的就是`setSubject()`和`claim()`
+
+前者设置一个主键，后者以map形式设置你想存储的键值对。
+
+## 2.验证token
+
+这里就需要用到interceptor
+
+重写preHandle，在controller前进行验证。
+
+```java
+public class JwtInterceptor implements HandlerInterceptor {
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        String token = request.getHeader("Authorization");
+    
+        // 登录验证
+        if (token == null) {
+            throw new BusinessException(401, "请先登录");
+        }
+    
+        // 过期验证
+        if (!jwtUtil.validateToken(token)) {
+            throw new BusinessException(401, "登录已过期，请重新登录");
+        }
+    
+        // 将用户ID存入请求属性
+        Long userId = jwtUtil.getUserIdFromToken(token);
+        String role = jwtUtil.getRoleFromToken(token);
+        request.setAttribute("role", role);
+        request.setAttribute("userId", userId);
+        return true;
+    }
+}
+```
 
 
+
+
+# 分类查询
+
+这个倒是没有什么特别新的，只有动态的sql语句
+
+## 1.书写controller，service，mapper三个层的方法
+
+## 2.mapper层中写入动态的sql语句
+
+```java
+// 我写了通过type查询， 
+// 范围价格查询， 
+// 发布时间查询， 
+// 状态查询， 
+// 依照某种字段升/降序排序
+@Select("<script>"
+        + "SELECT * FROM product WHERE 1=1"
+        + "<if test='type != null'> AND type = #{type} </if>"
+        + "<if test='minPrice != null'> AND price &gt;= #{minPrice} </if>"
+        + "<if test='maxPrice != null'> AND price &lt;= #{maxPrice} </if>"
+        + "<if test='hours != null'> AND publish_time &gt;= DATE_SUB(NOW(), INTERVAL #{hours} HOUR) </if>"
+        + "<if test='status != null'> AND status = #{status} </if>"
+        + "<if test='sortField != null'>"
+        + " ORDER BY ${sortField} "
+        + " <if test='sortDirection != null'>${sortDirection}</if>"
+        + "</if>"
+        + "<if test='sortField == null'> ORDER BY publish_time DESC </if>"
+        + "</script>")
+List<Product> selectByFilters(@Param("type") String type, 
+        @Param("minPrice") Double minPrice,
+        @Param("maxPrice") Double maxPrice,
+        @Param("hours") Integer hours,
+        @Param("status") String status,
+        @Param("sortField") String sortField,
+        @Param("sortDirection") String sortDirection
+);
+```
 
 
 

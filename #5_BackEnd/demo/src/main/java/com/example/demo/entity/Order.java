@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -13,9 +13,9 @@ public class Order {
 
     private Long id;
 
-    @NotNull
+    @NotBlank
     private Long productId;
-    @NotNull
+    @NotBlank
     private Long buyerId;
 
     @Pattern(regexp = "^(已下单|已取消)$")

@@ -17,6 +17,18 @@ spring:
     #   minimum-idle: 5           # 连接池最小空闲连接数
     #   idle-timeout: 600000      # 空闲连接存活最大时间（毫秒）
     #   max-lifetime: 1800000     # 连接最大存活时间（毫秒）
+  redis:
+    host: 192.168.6.128  # Redis服务器地址
+    port: 6379       # Redis服务器端口
+    password:        # Redis密码，如果没有设置密码则为空
+    database: 0      # 数据库索引（0-15）
+    timeout: 3000ms  # 连接超时时间
+    lettuce:
+      pool:
+        max-active: 8      # 连接池最大连接数
+        max-idle: 8        # 连接池最大空闲连接数
+        min-idle: 0        # 连接池最小空闲连接数
+        max-wait: -1ms     # 连接池最大阻塞等待时间（负值表示没有限制）
 # MyBatis 配置
 mybatis:
   # 配置 mapper.xml 文件的位置
@@ -28,6 +40,24 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+
 jwt:
   secret: your-super-secret-jwt-key-that-is-at-least-32-characters-long
   expiration: 604800000  # 7天（毫秒）
+
+tencent:
+  cloud:
+    sms:
+      secret-id: secret_id  # 你的 SecretId
+      secret-key: secret_key # 你的 SecretKey
+      sdk-app-id: your_app_id # 你的短信应用 ID（如 1400001234）
+      sign-name: your_sign_name # 审核通过的签名内容
+      template-id: your_template_id # 审核通过的模板 ID
+
+alipay:
+  app-id: your_app_id # 你的应用ID
+  gateway: https://openapi.alipaydev.com/gateway.do # 沙箱环境网关，生产环境需更换
+  merchant-private-key: your_private_key # 应用私钥
+  alipay-public-key: alipay_public_key # 支付宝公钥
+  notify-url: https://your-domain.com/orders/alipay/notify # 支付结果异步通知地址
+  return-url: https://your-domain.com/orders/success # 支付成功后前端跳转地址

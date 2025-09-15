@@ -17,8 +17,10 @@ import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.PasswordResetRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.dto.UpdateUserRequest;
+import com.example.demo.dto.ValidatePhoneCodeRequest;
 import com.example.demo.entity.ApiResponse;
 import com.example.demo.entity.User;
+import com.example.demo.service.AuthCodeService;
 import com.example.demo.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,6 +32,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AuthCodeService authCodeService;
 
     // 用户注册
     @PostMapping("/register")
@@ -68,6 +72,7 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success(passwordResetRequest.getNewPassword(), "密码重置成功"));
     }
 
+    // 管理员升级为超级管理员
     @RequireRole("ADMIN")
     @PutMapping("/upgrade")
     public ResponseEntity<ApiResponse<User>> upgradeAdmin(@RequestParam long userId) {
@@ -75,10 +80,34 @@ public class UserController {
         return ResponseEntity.ok(ApiResponse.success(user, "用户升级为管理员"));
     }
 
+    /*
+     * 更新名称(手机号业务重新设计)
+     * 更新手机号时需要重新的短信验证
+     */
     @PutMapping("/update")
     public ResponseEntity<ApiResponse<User>> updateUser(@RequestBody UpdateUserRequest updateUserRequest, HttpServletRequest request) {
-        User user = userService.updateUser(updateUserRequest, (Long) request.getAttribute("userId"));
+        User user = userService.updateUserName(updateUserRequest, (Long) request.getAttribute("userId"));
         return ResponseEntity.ok(ApiResponse.success(user, "用户信息更新成功"));
     }
 
+    /*
+     * 发送手机号验证码
+     */
+    @PostMapping("/sendPhoneCode")
+    public ResponseEntity<ApiResponse<String>> snedPhoneCode(@RequestBody String phone) {
+        authCodeService.savePhoneAuthCode(phone);
+        return ResponseEntity.ok(ApiResponse.success(phone, "手机验证码已发送"));
+    }
+
+    /*
+     * 验证手机短信验证码
+     */
+    @PostMapping("/validatePhoneCode")
+    public ResponseEntity<ApiResponse<String>> validatePhoneCode(@RequestBody ValidatePhoneCodeRequest validatePhoneCodeRequest,
+            HttpServletRequest request) {
+        authCodeService.validateCode(validatePhoneCodeRequest.getPhone(), validatePhoneCodeRequest.getCode());
+        Long userId = (Long) request.getAttribute("userId");
+        userService.updatePhone(userId, validatePhoneCodeRequest.getPhone());
+        return ResponseEntity.ok(ApiResponse.success(validatePhoneCodeRequest.getPhone(), "手机验证码验证成功"));
+    }
 }

@@ -15,6 +15,7 @@ import com.example.demo.entity.User;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.service.AuthCodeService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.JwtUtil;
 import com.example.demo.utils.PasswordEncoder;
@@ -28,6 +29,8 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private AuthCodeService authCodeService;
 
     // 用户注册
     @Transactional
@@ -115,9 +118,11 @@ public class UserServiceImpl implements UserService {
 
         // 加密新密码
         String encodedPassword = passwordEncoder.encode(request.getNewPassword());
+        user.setPassword(encodedPassword);
+        user.setUpdateTime(LocalDateTime.now());
 
         // 更新密码
-        int affectedRows = userMapper.updatePassword(userId, encodedPassword, LocalDateTime.now());
+        int affectedRows = userMapper.update(user);
 
         if (affectedRows != 1) {
             throw new BusinessException(500, "更新密码失败");
@@ -134,22 +139,39 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException(400, "用户已是管理员");
         }
         user.setRole("ADMIN");
-        userMapper.upgradeAdmin(user);
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
         return user;
     }
 
     @Override
-    public User updateUser(UpdateUserRequest updateUserRequest, Long userId) {
+    public User updateUserName(UpdateUserRequest updateUserRequest, Long userId) {
         String username = updateUserRequest.getUsername();
-        String phone = updateUserRequest.getPhone();
         User user = userMapper.selectById(userId);
+
         if (username.equals(user.getUsername())) {
             throw new BusinessException(400, "新用户名与旧用户名相同");
         }
         if (userMapper.selectByUsername(username) != null) {
             throw new BusinessException(400, "新用户名已存在");
         }
-        userMapper.updateUser(userId, username, phone, LocalDateTime.now());
+        user.setUsername(username);
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
         return userMapper.selectById(userId);
+    }
+
+    @Override
+    public void updatePhone(Long userId, String phone) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new ResourceNotFoundException("用户不存在");
+        }
+        if (userMapper.countByPhone(phone) > 0) {
+            throw new BusinessException(400, "手机号已被注册，请直接登录");
+        }
+        user.setPhone(phone);
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
     }
 }

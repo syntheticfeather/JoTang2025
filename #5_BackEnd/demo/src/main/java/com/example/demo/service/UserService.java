@@ -19,5 +19,7 @@ public interface UserService {
 
     public User upgradeAdmin(Long userId);
 
-    public User updateUser(UpdateUserRequest updateUserRequest, Long userId);
+    public User updateUserName(UpdateUserRequest updateUserRequest, Long userId);
+
+    public void updatePhone(Long userId, String phone);
 }

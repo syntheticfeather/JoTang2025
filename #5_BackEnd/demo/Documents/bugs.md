@@ -37,3 +37,7 @@ token过期很快？
 ![](imgs/JsonNameFail.png)
 
 #### **不可用**
+
+# Redis序列化异常
+
+org.springframework.data.redis.serializer.SerializationException: Could not write JSON: Java 8 date/time type `java.time.LocalDateTime` not supported by default: add Module "com.fasterxml.jackson.datatype:jackson-datatype-jsr310" to enable handling (or disable `MapperFeature.REQUIRE_HANDLERS_FOR_JAVA8_TIMES`) (through reference chain: java.util.ArrayList[0]->com.example.demo.entity.Product["publishTime"])

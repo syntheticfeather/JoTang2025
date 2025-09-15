@@ -18,19 +18,15 @@ public interface UserMapper {
     @Insert("insert into user(username, password, role, phone, create_time, update_time)"
             + " values(#{username}, #{password}, #{role}, #{phone}, #{createTime}, #{updateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    public long register(User user);
+    long register(User user);
 
     // 登录
     @Select("select * from user where username = #{username}")
-    public User login(String username);
+    User login(String username);
 
     // 删除用户
     @Delete("Delete * FROM user WHERE id = #{id}")
     int deleteUser(long id);
-
-    // 更新密码
-    @Update("UPDATE user SET password = #{password}, update_time = #{updateTime} WHERE id = #{id}")
-    int updatePassword(Long id, String password, LocalDateTime updateTime);
 
     // 根据ID查询用户
     @Select("SELECT * FROM user WHERE id = #{id}")
@@ -40,14 +36,16 @@ public interface UserMapper {
     @Select("SELECT COUNT(*) FROM user WHERE username = #{username}")
     int countByUsername(String username);
 
+    // 检查手机号是否已绑定
+    @Select("SELECT COUNT(*) FROM user WHERE phone = #{phone}")
+    int countByPhone(String phone);
+
     // 根据用户名查询用户
     @Select("SELECT * FROM user WHERE username = #{username}")
     User selectByUsername(String username);
 
-    @Update("UPDATE user SET role = #{role} WHERE id = #{id}")
-    public void upgradeAdmin(User user);
-
-    @Update("UPDATE user SET phone = #{phone}, update_time = #{now}, username = #{username} WHERE id = #{id}")
-    public void updateUser(Long id, String username, String phone, LocalDateTime now);
+    // 全部更新
+    @Update("UPDATE user SET update_time = #{now}, username = #{username}, password = #{password}, role = #{role}, phone = #{phone} WHERE id = #{id}")
+    int update(User user);
 
 }

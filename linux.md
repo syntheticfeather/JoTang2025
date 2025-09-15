@@ -17,3 +17,7 @@
 |apt search 软件包名 |搜索软件包|
 |sudo apt update| |
 |sudo apt install open-vm-tools-desktop|一个增加帧率的工具|
+|sudo ufw allow 3306| 允许mysql的3306端口|
+|sudo ufw status| 查看ufw状态|
+|sudo systemctl enable redis-server.service| 开机启动redis服务|
+|sudo systemctl status <服务名>.service| 查看服务状态|

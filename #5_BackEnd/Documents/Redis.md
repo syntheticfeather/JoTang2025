@@ -304,6 +304,7 @@ if (smsUtil.sendSmsCode(phone, code) == false){
 
 ### 也可以做Order的缓存功能，但是和Product的编写差不多，就先不重复的写一遍了。
 
+### 还有邮箱验证码的功能，可以参考上面的步骤实现。
 
 
 
@@ -327,15 +328,5 @@ if (smsUtil.sendSmsCode(phone, code) == false){
 
 
 
-
-
-
-
-
-步骤	核心内容	关键点/注意事项
-一、添加依赖	在pom.xml中加入spring-boot-starter-data-redis依赖	这是Spring Boot提供的标准Starter，简化配置。
-二、配置连接	在application.yml或application.properties中配置Redis连接信息	至少需配置host和port。若Redis服务器设密码，还需配置password。
-三、注入并使用模板	在代码中通过@Autowired注入RedisTemplate或StringRedisTemplate	StringRedisTemplate针对String操作更简洁。 使用opsForValue(), opsForHash()等方法操作不同数据类型。
-四、简单测试	编写代码设置和获取Redis中的数据	通过set和get等基本命令验证整合是否成功。
 
 

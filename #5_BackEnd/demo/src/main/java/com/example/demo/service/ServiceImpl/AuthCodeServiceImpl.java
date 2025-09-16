@@ -37,10 +37,10 @@ public class AuthCodeServiceImpl implements AuthCodeService {
         String key = SMS_KEY_PREFIX + phone;
         String code = generateRandomCode();
 
-        if (smsUtil.sendSmsCode(phone, code) == false){
+        if (smsUtil.sendSmsCode(phone, code) == false) {
             throw new BusinessException(400, "验证码发送失败");
         }
-    
+
         redisUtil.set(key, code, SMS_CODE_EXPIRE_TIME, TimeUnit.SECONDS);
     }
 
@@ -70,4 +70,30 @@ public class AuthCodeServiceImpl implements AuthCodeService {
      * 生成并验证邮箱验证码
      */
     // 
+    @Override
+    public void saveEmailAuthCode(String email) {
+        String key = EMAIL_KEY_PREFIX + email;
+        String code = generateRandomCode();
+
+        if (smsUtil.sendSmsCode(email, code) == false) {
+            throw new BusinessException(400, "验证码发送失败");
+        }
+
+        redisUtil.set(key, code, SMS_CODE_EXPIRE_TIME, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void validateEmailCode(String email, String code) {
+        String key = EMAIL_KEY_PREFIX + email;
+        String redisCode = (String) redisUtil.get(key);
+        if (redisCode == null) {
+            throw new BusinessException(400, "验证码已过期");
+        }
+        if (!redisCode.equals(code)) {
+            throw new BusinessException(400, "验证码错误");
+        } else {
+            redisUtil.delete(key);
+        }
+    }
+
 }

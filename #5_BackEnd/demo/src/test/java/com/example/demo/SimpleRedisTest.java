@@ -43,7 +43,8 @@ public class SimpleRedisTest {
 
         System.out.println("成功从Redis获取值: " + name);
 
-        User user = new User(1L, "Tom", "123456", "USER", "13812345678", null, null);
+        User user = new User(1L, "Tom", "123456", "USER", "13812345678",
+                "tom@example.com", null, null);
         redisTemplate.opsForValue().set("user", user);
         User user2 = (User) redisTemplate.opsForValue().get("user");
         assertEquals(user, user2);

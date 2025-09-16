@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.ApiResponse;
@@ -26,8 +25,12 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
+    // @Autowired
+    // private AlipayService alipayService;
+    // @Autowired
+    // private ProductService productService;
     // 创建订单
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<ApiResponse<Order>> addOrder(@RequestBody Order order, HttpServletRequest request) {
         // 从请求属性中获取用户ID (由拦截器放入)
         Long buyerId = (Long) request.getAttribute("userId");
@@ -38,8 +41,8 @@ public class OrderController {
     }
 
     // 取消订单
-    @PostMapping("/cancel")
-    public ResponseEntity<ApiResponse<Order>> cancelOrder(@RequestParam Long orderId, HttpServletRequest request) {
+    @PostMapping("/{orderId}/cancel")
+    public ResponseEntity<ApiResponse<Order>> cancelOrder(@PathVariable Long orderId, HttpServletRequest request) {
         // 从请求属性中获取用户ID
         Long buyerId = (Long) request.getAttribute("userId");
         String role = (String) request.getAttribute("role");
@@ -54,6 +57,47 @@ public class OrderController {
         return ResponseEntity.ok(ApiResponse.success(order));
     }
 
+    // 删除订单
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<ApiResponse<Void>> deleteOrder(@PathVariable Long orderId, HttpServletRequest request) {
+        // 从请求属性中获取用户ID
+        Long buyerId = (Long) request.getAttribute("userId");
+        String role = (String) request.getAttribute("role");
+
+        boolean deleted = orderService.deleteOrder(orderId, buyerId, role);
+        if (deleted) {
+            return ResponseEntity.ok(ApiResponse.success(null, "订单删除成功"));
+        } else {
+            return ResponseEntity.ok(ApiResponse.error(500, "订单删除失败"));
+        }
+    }
+
+    /*
+     * 关于支付订单的接口
+     */
+    // 对已有订单进行支付
+    // @PostMapping("/{orderId}/pay")
+    // public ResponseEntity<ApiResponse<String>> payOrder(@PathVariable Long orderId, HttpServletRequest request) {
+    //     try {
+    //         Order order = orderService.getOrderById(orderId);
+    //         Double price = productService.getProduct(order.getProductId()).getPrice();
+    //         String payUrl = alipayService.createOrder(orderId.toString(), price.toString(), "测试商品");
+    //         return ResponseEntity.ok(ApiResponse.success(payUrl));
+    //     } catch (AlipayApiException e) {
+    //         return ResponseEntity.ok(ApiResponse.error(500, "支付宝支付失败"));
+    //     }
+    // }
+    // // 异步通知的处理
+    // @PostMapping("/{orderId}/notify")
+    // public ResponseEntity<ApiResponse<Void>> handleNotify(@PathVariable Long orderId, HttpServletRequest request) {
+    //     // 处理支付宝异步通知
+    //     // TODO: 处理支付宝异步通知
+    //     OrderUpdateRequest orderUpdateRequest = new OrderUpdateRequest();
+    //     orderUpdateRequest.setOrderId(orderId);
+    //     orderUpdateRequest.setStatus("已下单");
+    //     orderService.updateOrder(orderUpdateRequest);
+    //     return ResponseEntity.ok(ApiResponse.success(null));
+    // }
     // 获取用户订单列表
     @GetMapping("/my")
     public ResponseEntity<ApiResponse<List<Order>>> getMyOrders(HttpServletRequest request) {
@@ -62,19 +106,5 @@ public class OrderController {
 
         List<Order> orders = orderService.getOrdersByBuyerId(buyerId);
         return ResponseEntity.ok(ApiResponse.success(orders));
-    }
-
-    // 删除订单
-    @DeleteMapping("/{orderId}")
-    public ResponseEntity<ApiResponse<Void>> deleteOrder(@PathVariable Long orderId, HttpServletRequest request) {
-        // 从请求属性中获取用户ID
-        Long buyerId = (Long) request.getAttribute("userId");
-
-        boolean deleted = orderService.deleteOrder(orderId, buyerId);
-        if (deleted) {
-            return ResponseEntity.ok(ApiResponse.success(null, "订单删除成功"));
-        } else {
-            return ResponseEntity.ok(ApiResponse.error(500, "订单删除失败"));
-        }
     }
 }

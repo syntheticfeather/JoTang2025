@@ -19,7 +19,7 @@ public interface OrderMapper {
     @Insert("INSERT INTO product_order (product_id, buyer_id, status, create_time, update_time) "
             + "VALUES (#{productId}, #{buyerId}, #{status}, #{createTime}, #{updateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    int addOrder(Order order);
+    int add(Order order);
 
     // 删除订单
     @Delete("DELETE FROM product_order WHERE id = #{id}")
@@ -27,7 +27,7 @@ public interface OrderMapper {
 
     // 更新订单状态
     @Update("UPDATE product_order SET status = #{status}, update_time = #{updateTime} WHERE id = #{id}")
-    int updateStatus(Long id, String status, LocalDateTime updateTime);
+    int update(Order order);
 
     // 插入订单
     @Insert("INSERT INTO product_order (product_id, buyer_id, status, create_time, update_time) "

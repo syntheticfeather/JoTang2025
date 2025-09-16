@@ -1,5 +1,9 @@
 # 应用配置
 spring:  
+  applcation:
+    name: JoTang2025 # 应用名称  
+  # 日志配置
+  logging:
   # 数据源配置
   datasource:
     # JDBC 连接字符串

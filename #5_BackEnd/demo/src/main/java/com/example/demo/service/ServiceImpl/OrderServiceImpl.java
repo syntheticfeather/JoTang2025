@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.OrderUpdateRequest;
 import com.example.demo.entity.Order;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.ResourceNotFoundException;
@@ -14,6 +15,9 @@ import com.example.demo.mapper.OrderMapper;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.OrderService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -27,23 +31,23 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order addOrder(Order order) {
         // 检查商品是否存在
-        if (productMapper.getProduct(order.getProductId()) == null) {
+        if (productMapper.get(order.getProductId()) == null) {
             throw new ResourceNotFoundException("商品不存在");
         }
 
         // 设置订单初始状态和时间
-        order.setStatus("已下单");
+        order.setStatus("未支付");
         order.setCreateTime(LocalDateTime.now());
         order.setUpdateTime(LocalDateTime.now());
 
         // 插入订单
-        int affectedRows = orderMapper.addOrder(order);
+        int affectedRows = orderMapper.add(order);
         if (affectedRows != 1) {
             throw new BusinessException(500, "订单创建失败");
         }
 
         // 返回完整的订单信息
-        return orderMapper.selectById(order.getId());
+        return order;
     }
 
     // 取消订单
@@ -55,25 +59,38 @@ public class OrderServiceImpl implements OrderService {
         if (order == null) {
             throw new ResourceNotFoundException("订单不存在");
         }
-
         // 检查权限：只有买家可以取消自己的订单
         // ADMIN可以取消所有订单
-        if (!"ADMIN".equals(role)) {
-            if (order.getBuyerId().equals(userId)) {
-                throw new BusinessException(403, "无权取消此订单");
-            }
+        if (!"ADMIN".equals(role) && !order.getBuyerId().equals(userId)) {
+            throw new BusinessException(403, "无权取消此订单");
         }
 
         // 检查订单状态：只有"已下单"的订单可以取消
         if (!"已下单".equals(order.getStatus())) {
             throw new BusinessException(400, "订单状态不允许取消");
         }
-
+        // TODO
+        // 还需有退款的逻辑
+        order.setUpdateTime(LocalDateTime.now());
+        order.setStatus("已取消");
         // 更新订单状态
-        orderMapper.updateStatus(orderId, "已取消", LocalDateTime.now());
+        orderMapper.update(order);
 
         // 返回更新后的订单
         return orderMapper.selectById(orderId);
+    }
+
+    @Transactional
+    @Override
+    public Order updateOrder(OrderUpdateRequest orderUpdateRequest) {
+        Order order = orderMapper.selectById(orderUpdateRequest.getOrderId());
+        if (order == null) {
+            throw new ResourceNotFoundException("订单不存在");
+        }
+        order.setStatus(orderUpdateRequest.getStatus());
+        order.setUpdateTime(LocalDateTime.now());
+        orderMapper.update(order);
+        return order;
     }
 
     // 根据ID获取订单
@@ -101,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
     // 删除订单
     @Transactional
     @Override
-    public boolean deleteOrder(Long id, Long buyerId) {
+    public boolean deleteOrder(Long id, Long buyerId, String role) {
         // 查询订单
         Order order = orderMapper.selectById(id);
         if (order == null) {
@@ -109,9 +126,10 @@ public class OrderServiceImpl implements OrderService {
         }
 
         // 检查权限：只有买家可以删除自己的订单
-        if (!order.getBuyerId().equals(buyerId)) {
+        if (!"ADMIN".equals(role) && !order.getBuyerId().equals(buyerId)) {
             throw new BusinessException(403, "无权删除此订单");
-        } // 删除订单
+        }
+
         int affectedRows = orderMapper.deleteById(id);
         return affectedRows > 0;
     }

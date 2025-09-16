@@ -18,7 +18,7 @@ public class Order {
     @NotBlank
     private Long buyerId;
 
-    @Pattern(regexp = "^(已下单|已取消)$")
+    @Pattern(regexp = "^(已下单|已取消|未支付)$")
     private String status; // 订单状态: 已下单/已取消/已完成等
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;

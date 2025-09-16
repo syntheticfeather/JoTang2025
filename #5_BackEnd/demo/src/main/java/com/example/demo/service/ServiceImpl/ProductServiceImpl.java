@@ -16,6 +16,8 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.ProductMapper;
 import com.example.demo.service.ProductService;
 import com.example.demo.utils.RedisUtil;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,7 +49,7 @@ public class ProductServiceImpl implements ProductService {
 
         // 2. 缓存中没有，从数据库查询
         log.info("缓存未命中，从数据库查询商品: {}", id);
-        product = productMapper.getProduct(id);
+        product = productMapper.get(id);
 
         if (product != null) {
             // 3. 将查询结果放入缓存
@@ -72,14 +74,13 @@ public class ProductServiceImpl implements ProductService {
 
         // 2. 缓存中没有，从数据库查询
         log.info("缓存未命中，从数据库查询商品列表");
-        products = productMapper.getProductsList();
+        products = productMapper.getList();
 
         if (products != null && !products.isEmpty()) {
             // 3. 将查询结果放入缓存
             redisUtil.set(cacheKey, products, PRODUCT_CACHE_EXPIRE, TimeUnit.MINUTES);
             log.info("将商品列表存入缓存");
         }
-
         return products;
     }
 
@@ -91,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
         product.setUpdateTime(LocalDateTime.now());
         product.setStatus("未售出");
         // 插入产品并返回带有ID的产品对象
-        productMapper.addProduct(product);
+        productMapper.add(product);
 
         clearProductListCaches();
         log.info("添加商品后清除相关缓存");
@@ -105,13 +106,13 @@ public class ProductServiceImpl implements ProductService {
         product.setUpdateTime(LocalDateTime.now());
 
         // 更新数据库
-        int affectedRows = productMapper.updateProduct(product);
+        int affectedRows = productMapper.update(product);
         if (affectedRows == 0) {
             throw new ResourceNotFoundException("商品不存在，ID: " + product.getId());
         }
 
         // 更新缓存 - 先获取最新数据
-        Product updatedProduct = productMapper.getProduct(product.getId());
+        Product updatedProduct = productMapper.get(product.getId());
         String cacheKey = PRODUCT_CACHE_KEY_PREFIX + product.getId();
         redisUtil.set(cacheKey, updatedProduct, PRODUCT_CACHE_EXPIRE, TimeUnit.MINUTES);
 
@@ -126,7 +127,7 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public boolean deleteProduct(Long id) {
         // 删除数据库记录
-        int affectedRows = productMapper.deleteProduct(id);
+        int affectedRows = productMapper.delete(id);
 
         if (affectedRows > 0) {
             // 删除缓存

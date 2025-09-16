@@ -19,20 +19,20 @@ public interface ProductMapper {
     @Insert("insert into product(title, description, type, price, status, publisher_id, publish_time, update_time) "
             + "values(#{title}, #{description}, #{type}, #{price}, #{status}, #{publisherId}, #{publishTime}, #{updateTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
-    void addProduct(Product product);
+    void add(Product product);
 
     @Delete("delete from product where id = #{id}")
-    int deleteProduct(long id);
+    int delete(long id);
 
     @Update("update product set title = #{title}, description = #{description}, type = #{type}, price = #{price}, status = #{status}, "
             + "publisher_id = #{publisherId}, update_time = #{updateTime} where id = #{id}")
-    int updateProduct(Product product);
+    int update(Product product);
 
     @Select("SELECT * FROM product")
-    ArrayList<Product> getProductsList();
+    ArrayList<Product> getList();
 
     @Select("SELECT * FROM product WHERE id = #{id}")
-    Product getProduct(long id);
+    Product get(long id);
 
     // 在ProductMapper中添加筛选方法
     @Select("<script>"

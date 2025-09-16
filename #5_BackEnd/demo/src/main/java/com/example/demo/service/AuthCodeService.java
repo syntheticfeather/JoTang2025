@@ -11,8 +11,13 @@ public interface AuthCodeService {
     // 将得到的验证码与存储的验证码做对比
     public void validateCode(String phone, String code);
 
+
     /*
      * 生成并验证邮箱验证码
      */
     // 
+    public void saveEmailAuthCode(String email);
+
+    public void validateEmailCode(String email, String code);
+
 }

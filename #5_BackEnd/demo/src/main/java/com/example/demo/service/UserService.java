@@ -22,4 +22,6 @@ public interface UserService {
     public User updateUserName(UpdateUserRequest updateUserRequest, Long userId);
 
     public void updatePhone(Long userId, String phone);
+
+    public void updateEmail(Long userId, String email);
 }

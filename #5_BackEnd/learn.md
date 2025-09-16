@@ -24,19 +24,3 @@ sudo systemctl restart mysql
 
 sudo ufw allow 3306
 
-## lombok
-
-@Data // 核心注解：一键生成所有以下内容
-@NoArgsConstructor // 生成无参构造器
-@AllArgsConstructor // 生成全参构造器
-@Builder 链式调用，生成建造者模式的Builder
-
-先addproduct
-
-post请求
-请求体里面传参
-
-还要product的参数要求
-
-第一个报错，pulisher外键约束。
-

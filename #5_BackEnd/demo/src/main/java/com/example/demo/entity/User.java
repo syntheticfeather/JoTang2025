@@ -31,6 +31,9 @@ public class User {
 
     @Pattern(regexp = "^1[34578]\\d{9}$", message = "手机号格式不正确")
     String phone;
+
+    
+    String email;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime createTime;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

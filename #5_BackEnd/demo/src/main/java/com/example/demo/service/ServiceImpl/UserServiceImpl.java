@@ -15,7 +15,6 @@ import com.example.demo.entity.User;
 import com.example.demo.exception.BusinessException;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.mapper.UserMapper;
-import com.example.demo.service.AuthCodeService;
 import com.example.demo.service.UserService;
 import com.example.demo.utils.JwtUtil;
 import com.example.demo.utils.PasswordEncoder;
@@ -29,8 +28,6 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private JwtUtil jwtUtil;
-    @Autowired
-    private AuthCodeService authCodeService;
 
     // 用户注册
     @Transactional
@@ -174,4 +171,16 @@ public class UserServiceImpl implements UserService {
         user.setUpdateTime(LocalDateTime.now());
         userMapper.update(user);
     }
+
+    @Override
+    public void updateEmail(Long userId, String email) {
+        User user = userMapper.selectById(userId);
+        if (user == null) {
+            throw new ResourceNotFoundException("用户不存在");
+        }
+        user.setEmail(email);
+        user.setUpdateTime(LocalDateTime.now());
+        userMapper.update(user);
+    }    
+
 }

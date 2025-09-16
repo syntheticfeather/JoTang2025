@@ -20,7 +20,9 @@
 |PUT|	更新/替换资源|	是	|否|
 |PATCH|	部分更新资源|	否|	否|
 |DELETE|	删除资源	|是	|否|
+
 对数据的正则处理。
+
 ### 3.统一的相应格式 (Representational State Transfer)
 
 
@@ -143,6 +145,7 @@ public ResponseEntity<ApiResponse<Object>> handleValidationException(MethodArgum
 
 - 登录信息验证
 - 身份校验
+
 ## 使用的步骤
 
 ### 1.创建拦截器类(@Component)，如：
@@ -177,6 +180,7 @@ public boolean preHandle(HttpServletRequest request, HttpServletResponse respons
     return true;
 }
 ```
+
 ### 3.在WebConfig中配置需要拦截的url，如：
 
 ```java
@@ -187,6 +191,7 @@ public void addInterceptors(InterceptorRegistry registry) {
             .excludePathPatterns("/user/login", "/user/register")
             .order(1);
 ```
+
 ## 其他:
 
 ### 关于多个拦截器的执行顺序:
@@ -329,6 +334,7 @@ public class JwtInterceptor implements HandlerInterceptor {
         }
     
         // 将用户ID存入请求属性
+        // 方便后续获得
         Long userId = jwtUtil.getUserIdFromToken(token);
         String role = jwtUtil.getRoleFromToken(token);
         request.setAttribute("role", role);
@@ -377,34 +383,5 @@ List<Product> selectByFilters(@Param("type") String type,
         @Param("sortDirection") String sortDirection
 );
 ```
-
-
-
-```mermaid
-sequenceDiagram
-    participant C as 客户端
-    participant D as DispatcherServlet
-    participant HI as HandlerInterceptor
-    participant CH as Controller Handler
-    participant V as View
-    participant ER as Exception Handler
-
-    C->>D: 发送HTTP请求
-    D->>HI: 调用 preHandle()
-    HI-->>D: 返回 boolean
-    alt 返回 false
-        D->>C: 直接返回响应，流程中断
-    else 返回 true
-        D->>CH: 调用控制器方法
-        CH->>HI: 调用 postHandle()
-        HI->>V: 处理视图（如存在）
-        V->>HI: 调用 afterCompletion()
-        HI->>C: 返回最终响应
-    end
-    
-    alt 处理过程中发生异常
-        CH->>ER: 抛出异常
-        ER->>HI: 触发 afterCompletion()
-        HI->>C: 返回错误响应
-    end
-```
+可以写在xml文件中，也可以写在java文件中。  
+但是我就这么一个地方要用到动态的sql语句，就直接写在这了

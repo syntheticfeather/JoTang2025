@@ -22,7 +22,7 @@ public class Product {
     String description;
 
     @NotBlank
-    @Pattern(regexp = "^(二手物品)|(代取需求)$")
+    @Pattern(regexp = "^(二手物品|代取需求)$")
     String type;
 
     @NotNull

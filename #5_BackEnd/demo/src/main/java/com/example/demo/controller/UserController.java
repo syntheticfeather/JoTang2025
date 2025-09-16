@@ -17,6 +17,7 @@ import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.PasswordResetRequest;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.dto.UpdateUserRequest;
+import com.example.demo.dto.ValidateEmailCodeRequest;
 import com.example.demo.dto.ValidatePhoneCodeRequest;
 import com.example.demo.entity.ApiResponse;
 import com.example.demo.entity.User;
@@ -110,4 +111,26 @@ public class UserController {
         userService.updatePhone(userId, validatePhoneCodeRequest.getPhone());
         return ResponseEntity.ok(ApiResponse.success(validatePhoneCodeRequest.getPhone(), "手机验证码验证成功"));
     }
+
+    /*
+     * 邮箱验证与绑定
+     */
+    @PostMapping("/sendEmailCode")
+    public ResponseEntity<ApiResponse<String>> snedEMailCode(@RequestBody String EMail) {
+        authCodeService.saveEmailAuthCode(EMail);
+        return ResponseEntity.ok(ApiResponse.success(EMail, "邮箱验证码已发送"));
+    }
+
+    /*
+     * 验证邮箱验证码
+     */
+    @PostMapping("/validateEMailCode")
+    public ResponseEntity<ApiResponse<String>> validateEMailCode(@RequestBody ValidateEmailCodeRequest validateEmailCodeRequest,
+            HttpServletRequest request) {
+        authCodeService.validateCode(validateEmailCodeRequest.getEmail(), validateEmailCodeRequest.getCode());
+        Long userId = (Long) request.getAttribute("userId");
+        userService.updateEmail(userId, validateEmailCodeRequest.getEmail());
+        return ResponseEntity.ok(ApiResponse.success(validateEmailCodeRequest.getEmail(), "邮箱验证码验证成功"));
+    }
+
 }

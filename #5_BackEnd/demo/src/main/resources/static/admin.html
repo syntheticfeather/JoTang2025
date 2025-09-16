@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JoTang商城管理系统 - 管理员页面</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- 引入Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- 引入Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <i class="fa fa-shopping-bag"></i>
+            <span>JoTang商城</span>
+        </div>
+        <div class="navbar-menu">
+            <a href="#dashboard" class="nav-link active">
+                <i class="fa fa-dashboard"></i> 仪表盘
+            </a>
+            <a href="#products" class="nav-link">
+                <i class="fa fa-cubes"></i> 产品管理
+            </a>
+            <a href="#orders" class="nav-link">
+                <i class="fa fa-shopping-cart"></i> 订单管理
+            </a>
+            <a href="#users" class="nav-link">
+                <i class="fa fa-users"></i> 用户管理
+            </a>
+        </div>
+        <div class="navbar-user">
+            <div class="user-avatar">
+                <i class="fa fa-user-circle-o"></i>
+            </div>
+            <div class="user-info">
+                <span class="user-name">管理员</span>
+                <div class="dropdown">
+                    <button class="dropdown-toggle">
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-menu">
+                        <a href="#profile"><i class="fa fa-user"></i> 个人资料</a>
+                        <a href="#settings"><i class="fa fa-cog"></i> 设置</a>
+                        <a href="#logout"><i class="fa fa-sign-out"></i> 退出登录</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 侧边栏 -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h3>快速访问</h3>
+        </div>
+        <div class="sidebar-menu">
+            <a href="#dashboard" class="sidebar-link active">
+                <i class="fa fa-tachometer"></i>
+                <span>仪表盘概览</span>
+            </a>
+            <a href="#new-products" class="sidebar-link">
+                <i class="fa fa-plus-circle"></i>
+                <span>新增产品</span>
+            </a>
+            <a href="#pending-orders" class="sidebar-link">
+                <i class="fa fa-clock-o"></i>
+                <span>待处理订单</span>
+                <span class="badge">12</span>
+            </a>
+            <a href="#analytics" class="sidebar-link">
+                <i class="fa fa-bar-chart"></i>
+                <span>数据分析</span>
+            </a>
+            <a href="#settings" class="sidebar-link">
+                <i class="fa fa-cog"></i>
+                <span>系统设置</span>
+            </a>
+        </div>
+        <div class="sidebar-stats">
+            <div class="stat-item">
+                <div class="stat-icon bg-primary">
+                    <i class="fa fa-cubes"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number">128</div>
+                    <div class="stat-label">产品总数</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-success">
+                    <i class="fa fa-shopping-cart"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number">56</div>
+                    <div class="stat-label">今日订单</div>
+                </div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon bg-warning">
+                    <i class="fa fa-users"></i>
+                </div>
+                <div class="stat-content">
+                    <div class="stat-number">2,543</div>
+                    <div class="stat-label">注册用户</div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <!-- 仪表盘部分 -->
+        <section id="dashboard" class="content-section active">
+            <div class="section-header">
+                <h2>仪表盘概览</h2>
+                <div class="header-actions">
+                    <div class="date-range">
+                        <i class="fa fa-calendar"></i>
+                        <span>最近7天</span>
+                        <i class="fa fa-caret-down"></i>
+                    </div>
+                    <button class="btn btn-primary">
+                        <i class="fa fa-download"></i> 导出报告
+                    </button>
+                </div>
+            </div>
+
+            <!-- 数据卡片 -->
+            <div class="data-cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>总销售额</h3>
+                        <i class="fa fa-line-chart text-primary"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">¥28,549.00</div>
+                        <div class="card-trend">
+                            <span class="trend-up">+12.5%</span>
+                            <span class="trend-period">较上周</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>订单总数</h3>
+                        <i class="fa fa-shopping-cart text-success"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">1,284</div>
+                        <div class="card-trend">
+                            <span class="trend-up">+8.3%</span>
+                            <span class="trend-period">较上周</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>用户增长</h3>
+                        <i class="fa fa-users text-warning"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">256</div>
+                        <div class="card-trend">
+                            <span class="trend-up">+15.2%</span>
+                            <span class="trend-period">较上周</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>转化率</h3>
+                        <i class="fa fa-percent text-danger"></i>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-value">3.8%</div>
+                        <div class="card-trend">
+                            <span class="trend-down">-1.2%</span>
+                            <span class="trend-period">较上周</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 图表区域 -->
+            <div class="charts-section">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>销售趋势</h3>
+                        <div class="chart-filters">
+                            <button class="filter-btn active">日</button>
+                            <button class="filter-btn">周</button>
+                            <button class="filter-btn">月</button>
+                            <button class="filter-btn">年</button>
+                        </div>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="salesChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3>产品分类占比</h3>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最近订单 -->
+            <div class="recent-orders">
+                <div class="section-header">
+                    <h3>最近订单</h3>
+                    <a href="#all-orders" class="view-all">查看全部</a>
+                </div>
+                <div class="orders-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>订单编号</th>
+                                <th>客户</th>
+                                <th>产品</th>
+                                <th>金额</th>
+                                <th>状态</th>
+                                <th>时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>ORD-2024-00123</td>
+                                <td>张三</td>
+                                <td>智能手机 Pro</td>
+                                <td>¥2,599.00</td>
+                                <td><span class="status status-pending">待发货</span></td>
+                                <td>2024-11-10 14:30</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">详情</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ORD-2024-00122</td>
+                                <td>李四</td>
+                                <td>无线耳机</td>
+                                <td>¥499.00</td>
+                                <td><span class="status status-shipped">已发货</span></td>
+                                <td>2024-11-10 11:15</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">详情</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ORD-2024-00121</td>
+                                <td>王五</td>
+                                <td>智能手表</td>
+                                <td>¥1,299.00</td>
+                                <td><span class="status status-completed">已完成</span></td>
+                                <td>2024-11-10 09:45</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">详情</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ORD-2024-00120</td>
+                                <td>赵六</td>
+                                <td>平板电脑</td>
+                                <td>¥3,499.00</td>
+                                <td><span class="status status-cancelled">已取消</span></td>
+                                <td>2024-11-09 16:20</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary">详情</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 热门产品 -->
+            <div class="popular-products">
+                <div class="section-header">
+                    <h3>热门产品</h3>
+                    <a href="#all-products" class="view-all">查看全部</a>
+                </div>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://picsum.photos/seed/product1/300/300" alt="智能手机 Pro">
+                        </div>
+                        <div class="product-info">
+                            <h4>智能手机 Pro</h4>
+                            <div class="product-meta">
+                                <span class="product-category">电子产品</span>
+                                <span class="product-rating">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star-half-o text-warning"></i>
+                                    <span class="rating-count">(128)</span>
+                                </span>
+                            </div>
+                            <div class="product-stats">
+                                <div class="stat">
+                                    <span class="stat-label">月销量</span>
+                                    <span class="stat-value">524</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">库存</span>
+                                    <span class="stat-value">1,256</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-sm btn-primary">查看</button>
+                                <button class="btn btn-sm btn-secondary">编辑</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://picsum.photos/seed/product2/300/300" alt="无线耳机">
+                        </div>
+                        <div class="product-info">
+                            <h4>无线耳机</h4>
+                            <div class="product-meta">
+                                <span class="product-category">配件</span>
+                                <span class="product-rating">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star-o text-warning"></i>
+                                    <span class="rating-count">(96)</span>
+                                </span>
+                            </div>
+                            <div class="product-stats">
+                                <div class="stat">
+                                    <span class="stat-label">月销量</span>
+                                    <span class="stat-value">389</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">库存</span>
+                                    <span class="stat-value">2,105</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-sm btn-primary">查看</button>
+                                <button class="btn btn-sm btn-secondary">编辑</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://picsum.photos/seed/product3/300/300" alt="智能手表">
+                        </div>
+                        <div class="product-info">
+                            <h4>智能手表</h4>
+                            <div class="product-meta">
+                                <span class="product-category">可穿戴设备</span>
+                                <span class="product-rating">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <span class="rating-count">(87)</span>
+                                </span>
+                            </div>
+                            <div class="product-stats">
+                                <div class="stat">
+                                    <span class="stat-label">月销量</span>
+                                    <span class="stat-value">245</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">库存</span>
+                                    <span class="stat-value">876</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-sm btn-primary">查看</button>
+                                <button class="btn btn-sm btn-secondary">编辑</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://picsum.photos/seed/product4/300/300" alt="平板电脑">
+                        </div>
+                        <div class="product-info">
+                            <h4>平板电脑</h4>
+                            <div class="product-meta">
+                                <span class="product-category">电子产品</span>
+                                <span class="product-rating">
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star text-warning"></i>
+                                    <i class="fa fa-star-half-o text-warning"></i>
+                                    <i class="fa fa-star-o text-warning"></i>
+                                    <span class="rating-count">(76)</span>
+                                </span>
+                            </div>
+                            <div class="product-stats">
+                                <div class="stat">
+                                    <span class="stat-label">月销量</span>
+                                    <span class="stat-value">189</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-label">库存</span>
+                                    <span class="stat-value">654</span>
+                                </div>
+                            </div>
+                            <div class="product-actions">
+                                <button class="btn btn-sm btn-primary">查看</button>
+                                <button class="btn btn-sm btn-secondary">编辑</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 产品管理部分（默认隐藏） -->
+        <section id="products" class="content-section">
+            <div class="section-header">
+                <h2>产品管理</h2>
+                <div class="header-actions">
+                    <div class="search-box">
+                        <input type="text" placeholder="搜索产品...">
+                        <button class="search-btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                    <button class="btn btn-primary">
+                        <i class="fa fa-plus"></i> 新增产品
+                    </button>
+                </div>
+            </div>
+
+            <div class="products-table-container">
+                <table class="products-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox"></th>
+                            <th>产品ID</th>
+                            <th>产品图片</th>
+                            <th>产品名称</th>
+                            <th>分类</th>
+                            <th>价格</th>
+                            <th>库存</th>
+                            <th>销量</th>
+                            <th>状态</th>
+                            <th>创建时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 产品数据将通过JavaScript动态加载 -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 订单管理部分（默认隐藏） -->
+        <section id="orders" class="content-section">
+            <div class="section-header">
+                <h2>订单管理</h2>
+                <div class="header-actions">
+                    <div class="order-filters">
+                        <select class="filter-select">
+                            <option value="all">全部订单</option>
+                            <option value="pending">待发货</option>
+                            <option value="shipped">已发货</option>
+                            <option value="completed">已完成</option>
+                            <option value="cancelled">已取消</option>
+                        </select>
+                        <input type="date" class="date-filter">
+                    </div>
+                </div>
+            </div>
+
+            <!-- 订单内容将通过JavaScript动态加载 -->
+        </section>
+
+        <!-- 用户管理部分（默认隐藏） -->
+        <section id="users" class="content-section">
+            <div class="section-header">
+                <h2>用户管理</h2>
+                <!-- 用户管理相关操作 -->
+            </div>
+
+            <!-- 用户内容将通过JavaScript动态加载 -->
+        </section>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-info">
+                <div class="footer-logo">
+                    <i class="fa fa-shopping-bag"></i>
+                    <span>JoTang商城</span>
+                </div>
+                <p>© 2024 JoTang商城管理系统. 保留所有权利。</p>
+            </div>
+            <div class="footer-links">
+                <h4>快速链接</h4>
+                <ul>
+                    <li><a href="#">关于我们</a></li>
+                    <li><a href="#">帮助中心</a></li>
+                    <li><a href="#">联系我们</a></li>
+                    <li><a href="#">隐私政策</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>联系我们</h4>
+                <p><i class="fa fa-envelope"></i> support@jotang.com</p>
+                <p><i class="fa fa-phone"></i> 400-123-4567</p>
+                <div class="social-links">
+                    <a href="#"><i class="fa fa-weibo"></i></a>
+                    <a href="#"><i class="fa fa-wechat"></i></a>
+                    <a href="#"><i class="fa fa-qq"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript文件 -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

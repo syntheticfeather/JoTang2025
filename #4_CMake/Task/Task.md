@@ -8,15 +8,15 @@
 
     这部是在编译阶段，将demo.i文件编译成汇编语言，生成demo.s文件。
 
-`gcc -c src/main.c  -o main.o`  
+`gcc -c demo.s -o demo.o`  
 
     这步是在编译阶段，将src/main.c文件编译成目标文件，生成main.o文件。
 
-`gcc main.o utils.o -o my_program`
+`gcc demo.o -o demo.out`
 
     这步是在链接阶段，将main.o和utils.o文件链接成可执行文件my_program。
 
-`./my_program`
+`./demo.out`
 
     运行程序
 

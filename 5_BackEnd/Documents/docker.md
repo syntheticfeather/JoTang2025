@@ -22,7 +22,7 @@ mvn clean package -DskipTests
 
 在项目的**根目录**下创建一个名为 `Dockerfile` 的文件（没有后缀）。这个文件是构建镜像的蓝图。
 
-我们将创建一个**两阶段构建**的 `Dockerfile`，这是最佳实践。它可以生成更小、更安全的生产镜像。
+我们将创建一个**两阶段构建**的 `Dockerfile`。它可以生成更小、更安全的生产镜像。
 
 ```dockerfile
 # 第一阶段：构建阶段 (Builder Stage)
@@ -32,6 +32,7 @@ WORKDIR /app
 # 首先只复制pom.xml文件（利用Docker缓存层）
 COPY pom.xml .
 # 下载所有依赖（如果pom.xml没变，这一层会被缓存，极大加速后续构建）
+# 虽然说的缓存但是我一直没看到效果，每次build都下载一堆东西
 RUN mvn dependency:go-offline
 # 然后复制所有源代码
 COPY src ./src
@@ -57,7 +58,7 @@ EXPOSE 8080
 
 # 执行命令来运行应用
 # 使用显式的"java -jar"命令而不是shell形式，确保能正确处理信号（如docker stop）
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
 
 # 可以添加JVM参数，例如调整内存、启用调试等（按需修改）
 # ENTRYPOINT ["java", "-Xmx512m", "-Dspring.profiles.active=prod", "-jar", "/app.jar"]
@@ -77,6 +78,25 @@ docker images
 ```
 你应该能看到一个名为 `my-spring-app`，标签为 `1.0.0` 的镜像。
 
+---
+
+很多时候不太连的上
+
+需要配置一下镜像源(从github上找的比较好的:
+[爬爬虾](https://github.com/tech-shrimp/docker_installer))
+```bash
+sudo vi /etc/docker/daemon.json
+
+{
+    "registry-mirrors": [
+        "https://docker.m.daocloud.io",
+        "https://docker.1panel.live",
+        "https://hub.rat.dev"
+    ]
+}
+
+```
+
 #### 步骤 4：在本地运行 Docker 容器测试
 
 在部署到服务器之前，先在本地测试一下镜像是否能正常工作。
@@ -93,7 +113,7 @@ docker run -d -p 8080:8080 --name spring-app-container my-spring-app:1.0.0
 *   `-d`：让容器在**后台**运行（Detached mode）。
 *   `--name`：给容器起一个名字，方便管理。
 
-**测试：** 打开浏览器访问 `http://localhost:8080`。如果应用正常响应，说明镜像构建成功！
+**测试：** 打开浏览器访问 `http://localhost:8080`。如果应用正常响应，说明镜像构建成功
 
 **查看日志：**
 ```bash
@@ -182,15 +202,18 @@ Dockerfile 书写
 指令构建
 
 ```bash
-Docker Build -t my-spring-app:1.0.0 .
-Docker tag my-spring-app:1.0.0 your-dockerhub-username/my-spring-app:1.0.0
+# 本地
+Docker Build -t jotang2025-gcc-app:latest .
+Docker images
+Docker tag jotang2025-gcc-app:latest iamfs/jotang2025-gcc-app:latest
 Docker login
-Docker push your-dockerhub-username/my-spring-app:1.0.0
-DOcker pull your-dockerhub-username/my-spring-app:1.0.0
-Docker run -d -p 80:8080 --name my-spring-app-prod -v /host/path/to/logs:/app/logs -e "SPRING_PROFILES_ACTIVE=prod" iamfs/my-pro:1.0.0
+Docker push iamfs/jotang2025-gcc-app:latest
+# 服务器
+DOcker pull iamfs/jotang2025-gcc-app:latest
+Docker run -d -p 80:8080 --name jotang2025-gcc-app-prod -v /host/path/to/logs:/app/logs -e "SPRING_PROFILES_ACTIVE=prod" iamfs/my-pro:1.0.0
 ```
 
-对缓存的镜像和容器清除
+对缓存不用的镜像和容器清除
 
 ```bash
 docker rmi 镜像名/id
@@ -202,29 +225,12 @@ docker rm 容器名/id
 
 | 指令 | 说明 |
 | --- | --- |
-| `docker build` | 构建镜像 |
-| `docker run` | 运行容器 |
-| `docker images` | 列出镜像 |
-| `docker ps` | 列出容器 |
-| `docker logs` | 查看容器日志 |
-| `docker stop` | 停止容器 |
-| `docker rm` |删除容器|
-| `docker push` | 推送镜像到镜像仓库 |
-| `docker pull` | 从镜像仓库拉取镜像 |
-| `docker login` | 登录镜像仓库 |
+|docker build -t 镜像名:标签 路径 | 构建镜像|
+|docker images |查看镜像|
+|docker image prune -f |删除所有未命名镜像|
+|docker rmi 镜像名/id |删除镜像|
+|docker rm 容器名/id |删除容器|
+|docker ps -a |查看所有容器|
+|docker ps | 查看运行的容器| 
+|docker run -d -p 端口:容器端口 --name 容器名 镜像名 |运行容器|
 
-
-
-
-| 指令 | 说明 |例子|
-| --- | --- | -|
-| `-t` | 给镜像打标签 | `docker build -t my-spring-app:1.0.0 .` |
-| `-p` | 端口映射 | `docker run -p 8080:8080 my-spring-app:1.0.0` |
-| `-d` | 后台运行 | `docker run -d -p 8080:8080 --name spring-app-container my-spring-app:1.0.0` |
-| `--name` | 给容器起名 | `docker run -d -p 8080:8080 --name spring-app-container my-spring-app:1.0.0` |
-| `--restart` | 重启策略 | `docker run -d --restart=always -p 8080:8080 --name spring-app-container my-spring-app:1.0.0` |
-| `--memory` | 限制内存 | `docker run -d --memory=512m -p 8080:8080 --name spring-app-container my-spring-app:1.0.0` |
-| `--cpus` | 限制CPU使用率 | `docker run -d --cpus="1.0" -p 8080:8080 --name spring-app-container my-spring-app:1.0.0` |
-| `-e` | 设置环境变量 | `docker run -d -e "SPRING_PROFILES_ACTIVE=prod" -p 8080:8080 --name spring-app-container my-spring-app:1.0.0` |
-| `-v` | 挂载卷 | `docker run -d -v /host/path/to/logs:/app/logs -p 8080:8080 --name spring-app-container my-spring-app:1.0.0` |
-| `-q` | 精简输出 | `docker images -q` |

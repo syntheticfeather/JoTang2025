@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API文档索引</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: #3498db;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+
+        .api-card {
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: white;
+            margin-right: 10px;
+        }
+
+        .get {
+            background-color: #2ecc71;
+        }
+
+        .post {
+            background-color: #3498db;
+        }
+
+        .put {
+            background-color: #f39c12;
+        }
+
+        .delete {
+            background-color: #e74c3c;
+        }
+
+        .url {
+            font-family: monospace;
+            background-color: #f9f9f9;
+            padding: 2px 5px;
+            border-radius: 3px;
+            word-break: break-all;
+        }
+
+        .example {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-left: 3px solid #3498db;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .param-table {
+            margin: 10px 0;
+        }
+
+        .param-title {
+            font-weight: bold;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>API文档索引</h1>
+
+        <h2>User API</h2>
+
+        <div class="api-card">
+            <h3>register - 用户注册</h3>
+            <div><span class="method post">POST</span> <span class="url">http://47.99.216.189:8080/users/register</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>username</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>用户名，唯一标识符</td>
+                        <td>"gcc"</td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>密码</td>
+                        <td>"123456"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "username": "gcc",
+                "password": "123456"
+                }
+            </div>
+        </div>
+
+        <div class="api-card">
+            <h3>login - 用户登录</h3>
+            <div><span class="method post">POST</span> <span class="url">http://47.99.216.189:8080/users/login</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>username</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>用户名</td>
+                        <td>"gcc"</td>
+                    </tr>
+                    <tr>
+                        <td>password</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>密码</td>
+                        <td>"123456"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "username": "gcc",
+                "password": "123456"
+                }
+            </div>
+        </div>
+
+        <div class="api-card">
+            <h3>getCurrentUser - 获取当前用户信息</h3>
+            <div><span class="method get">GET</span> <span class="url">http://47.99.216.189:8080/users/me</span></div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Authorization</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>登录token（放在请求头中）</td>
+                        <td>"eyJhbGciOiJI......"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/users/me</div>
+        </div>
+
+        <div class="api-card">
+            <h3>resetPassword - 重置密码</h3>
+            <div><span class="method put">PUT</span> <span class="url">http://47.99.216.189:8080/users/resetpwd</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>oldPassword</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>旧密码</td>
+                        <td>"123456"</td>
+                    </tr>
+                    <tr>
+                        <td>newPassword</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>新密码</td>
+                        <td>"654321"</td>
+                    </tr>
+                    <tr>
+                        <td>confirmPassword</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>确认新密码</td>
+                        <td>"654321"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "oldPassword": "123456",
+                "newPassword": "654321",
+                "confirmPassword": "654321"
+                }
+            </div>
+        </div>
+
+        <div class="api-card">
+            <h3>upgradeAdmin - 升级管理员(需要管理员权限)</h3>
+            <div><span class="method put">PUT</span> <span
+                    class="url">http://47.99.216.189:8080/users/upgrade?userId=5</span></div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>userId</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>用户id</td>
+                        <td>5</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/users/upgrade?userId=5</div>
+        </div>
+
+        <div class="api-card">
+            <h3>updateUser - 更新用户信息</h3>
+            <div><span class="method put">PUT</span> <span class="url">http://47.99.216.189:8080/users/update</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>username</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>用户名</td>
+                        <td>"gcc2"</td>
+                    </tr>
+                    <tr>
+                        <td>phone</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>手机号</td>
+                        <td>"13812345678"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "username": "gcc2",
+                "phone": "13812345678"
+                }
+            </div>
+        </div>
+
+        <h2>Product API</h2>
+
+        <div class="api-card">
+            <h3>getProduct - 查询产品信息</h3>
+            <div><span class="method get">GET</span> <span class="url">http://47.99.216.189:8080/products?id=5</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>number</td>
+                        <td>是</td>
+                        <td>产品ID，唯一标识符</td>
+                        <td>5</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL传参示例: http://47.99.216.189:8080/products?id=5</div>
+        </div>
+
+        <div class="api-card">
+            <h3>getProductList - 查询产品列表</h3>
+            <div><span class="method get">GET</span> <span class="url">http://47.99.216.189:8080/products/list</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>pageNum</td>
+                        <td>number</td>
+                        <td>是</td>
+                        <td>页码</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>pageSize</td>
+                        <td>number</td>
+                        <td>是</td>
+                        <td>每页大小</td>
+                        <td>10</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/products/list</div>
+        </div>
+
+        <div class="api-card">
+            <h3>addProduct - 添加产品信息</h3>
+            <div><span class="method post">POST</span> <span class="url">http://47.99.216.189:8080/products</span></div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>title</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>商品标题</td>
+                        <td>"二手笔记本电脑"</td>
+                    </tr>
+                    <tr>
+                        <td>description</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>商品详细描述</td>
+                        <td>"九成新，2022年购入..."</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>string</td>
+                        <td>是</td>
+                        <td>商品类型</td>
+                        <td>"二手物品"/"代取需求"</td>
+                    </tr>
+                    <tr>
+                        <td>price</td>
+                        <td>number</td>
+                        <td>是</td>
+                        <td>价格</td>
+                        <td>2500.00</td>
+                    </tr>
+                    <tr>
+                        <td>publisherId</td>
+                        <td>number</td>
+                        <td>是</td>
+                        <td>发布者用户ID</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "title": "二手笔记本电脑",
+                "description": "九成新，2022年购入...",
+                "type": "二手物品",
+                "price": 2500.00,
+                "publisherId": 1
+                }
+            </div>
+        </div>
+
+        <div class="api-card">
+            <h3>updateProduct - 更新产品信息</h3>
+            <div><span class="method put">PUT</span> <span class="url">http://47.99.216.189:8080/products</span></div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>number</td>
+                        <td>是</td>
+                        <td>产品ID，唯一标识符</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>商品标题</td>
+                        <td>"二手笔记本电脑"</td>
+                    </tr>
+                    <tr>
+                        <td>description</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>商品详细描述</td>
+                        <td>"九成新，2022年购入..."</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>商品类型</td>
+                        <td>"二手物品"/"代取需求"</td>
+                    </tr>
+                    <tr>
+                        <td>price</td>
+                        <td>number</td>
+                        <td>否</td>
+                        <td>价格</td>
+                        <td>2500.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "id": 5,
+                "title": "二手笔记本电脑",
+                "description": "九成新，2022年购入...",
+                "type": "二手物品",
+                "price": 2500.00
+                }
+            </div>
+        </div>
+
+        <div class="api-card">
+            <h3>deleteProduct - 删除产品</h3>
+            <div><span class="method delete">DELETE</span> <span
+                    class="url">http://47.99.216.189:8080/products?id=5</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>id</td>
+                        <td>number</td>
+                        <td>是</td>
+                        <td>产品ID，唯一标识符</td>
+                        <td>5</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/products?id=5</div>
+        </div>
+
+        <div class="api-card">
+            <h3>filter - 筛选产品</h3>
+            <div><span class="method get">GET</span> <span class="url">http://47.99.216.189:8080/products/filter</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>type</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>商品类型</td>
+                        <td>"二手物品"/"代取需求"</td>
+                    </tr>
+                    <tr>
+                        <td>minPrice</td>
+                        <td>number</td>
+                        <td>否</td>
+                        <td>最低价格</td>
+                        <td>1000.00</td>
+                    </tr>
+                    <tr>
+                        <td>maxPrice</td>
+                        <td>number</td>
+                        <td>否</td>
+                        <td>最高价格</td>
+                        <td>5000.00</td>
+                    </tr>
+                    <tr>
+                        <td>hours</td>
+                        <td>number</td>
+                        <td>否</td>
+                        <td>发布时间距离当前多少小时</td>
+                        <td>24</td>
+                    </tr>
+                    <tr>
+                        <td>status</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>商品状态</td>
+                        <td>"未售出"/"已售出"</td>
+                    </tr>
+                    <tr>
+                        <td>sortField</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>排序字段</td>
+                        <td>"price"/"public_time"</td>
+                    </tr>
+                    <tr>
+                        <td>sortDirection</td>
+                        <td>string</td>
+                        <td>否</td>
+                        <td>排序方向</td>
+                        <td>"asc"/"desc"</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "type": "二手物品",
+                "minPrice": 1000.00,
+                "maxPrice": 5000.00,
+                "hours": 24,
+                "status": "未售出",
+                "sortField": "price",
+                "sortDirection": "asc"
+                }
+            </div>
+        </div>
+
+        <h2>Order API</h2>
+
+        <div class="api-card">
+            <h3>addOrder - 创建订单</h3>
+            <div><span class="method post">POST</span> <span class="url">http://47.99.216.189:8080/orders/add</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>productId</td>
+                        <td>long</td>
+                        <td>是</td>
+                        <td>商品id</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">
+                {
+                "productId": 1
+                }
+            </div>
+        </div>
+
+        <div class="api-card">
+            <h3>CancelOrder - 取消订单</h3>
+            <div><span class="method post">POST</span> <span
+                    class="url">http://47.99.216.189:8080/orders/4/cancel</span></div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>orderId</td>
+                        <td>long</td>
+                        <td>是</td>
+                        <td>订单id</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/orders/4/cancel</div>
+        </div>
+
+        <div class="api-card">
+            <h3>getOrder - 获取订单信息</h3>
+            <div><span class="method get">GET</span> <span class="url">http://47.99.216.189:8080/orders/1</span></div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>orderId</td>
+                        <td>long</td>
+                        <td>是</td>
+                        <td>订单id</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/orders/1</div>
+        </div>
+
+        <div class="api-card">
+            <h3>deleteOrder - 删除订单</h3>
+            <div><span class="method delete">DELETE</span> <span class="url">http://47.99.216.189:8080/orders/1</span>
+            </div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>orderId</td>
+                        <td>long</td>
+                        <td>是</td>
+                        <td>订单id</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/orders/1</div>
+        </div>
+
+        <div class="api-card">
+            <h3>getMyOrders - 获取我的订单</h3>
+            <div><span class="method get">GET</span> <span class="url">http://47.99.216.189:8080/orders/my</span></div>
+
+            <div class="param-title">请求参数:</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>字段名</th>
+                        <th>类型</th>
+                        <th>是否必填</th>
+                        <th>说明</th>
+                        <th>示例值</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>无</td>
+                        <td>-</td>
+                        <td>-</td>
+                        <td>无需参数</td>
+                        <td>-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="example">URL示例: http://47.99.216.189:8080/orders/my</div>
+        </div>
+    </div>
+</body>
+
+</html>

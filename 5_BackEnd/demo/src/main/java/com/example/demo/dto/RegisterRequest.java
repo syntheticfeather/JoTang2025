@@ -16,7 +16,7 @@ public class RegisterRequest {
     @Size(min = 6, message = "密码长度至少6位")
     private String password;
 
-    @Pattern(regexp = "^(USER)|(ADMIN)$")
+    @Pattern(regexp = "^(USER|ADMIN)$")
     private String role = "USER";
 
     private String adminRegister;

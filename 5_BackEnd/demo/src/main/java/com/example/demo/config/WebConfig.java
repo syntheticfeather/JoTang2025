@@ -22,13 +22,14 @@ public class WebConfig implements WebMvcConfigurer {
         // JWT拦截器配置
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/users/login", "/users/register")
+                .excludePathPatterns("/users/login", "/users/register", "/index.html")
                 .order(1);
 
         // 角色权限拦截器也需要同步更新
         registry.addInterceptor(roleInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/users/login", "/users/register")
+                .excludePathPatterns("/users/login", "/users/register", "/index.html")
+                .excludePathPatterns("/index.html")
                 .order(10);
     }
 }

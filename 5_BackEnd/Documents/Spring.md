@@ -1,3 +1,13 @@
+# 项目创建
+
+sudo apt install openjdk-17-jdk
+sudo apt install maven
+
+java
+
+项目包是从 https://start.spring.io/ 直接建立。然后复制到linux上，不过也可以直接Linux指令创建:
+`curl https://start.spring.io/starter.tgz -d dependencies=web -d type=maven-project -d groupId=com.example -d artifactId=demo -d name=demo | tar -xzvf -`不过依赖挺难设置的，记不住。
+
 # RESTful API设计规范
 
 ### 1. 资源导向设计 (Resource-Oriented)
@@ -8,7 +18,6 @@
 |集合资源|	/users|	用户集合|
 |单个资源	|/users/{id}	|特定用户|
 |子资源	|/users/{id}/orders	|用户的订单|
-
 
 ### 2. 统一接口 (Uniform Interface)
 使用标准的 HTTP 方法操作资源：

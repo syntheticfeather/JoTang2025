@@ -103,6 +103,23 @@ spring:
         max-wait: -1ms     # 连接池最大阻塞等待时间（负值表示没有限制）
 ```
 
+```bash
+# 关闭redis
+sudo systemctl stop redis
+
+#关闭redis的自启动
+sudo systemctl disable redis
+
+# 查看redis的状态
+sudo systemctl status redis
+
+# 查看6379端口的监听
+sudo netstat -ntlp | grep 6379
+
+# 关闭监听
+sudo netstat -ntlp | grep 6379 | awk '{print $7}' | cut -d/ -f1 | xargs kill -9
+```
+
 ## QuickStart
 
 使用redis自带的StringRedisTemplate来操作redis。
@@ -219,6 +236,8 @@ public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factor
 
 ## 除了product我们还可以干嘛呢
 
+#### 注: 以下功能并不能真正运行，阿里云/腾讯的短信推送凭证申请都没通过。以下只是思路和代码部分的实现。
+
 ### 1.做一个手机短信验证绑定功能
 
 **步骤:**
@@ -300,7 +319,9 @@ if (smsUtil.sendSmsCode(phone, code) == false){
     throw new BusinessException(400, "验证码发送失败");
 }
 ```
-### **伪短信发送的功能实现结束**
+**伪短信发送的功能实现结束**
+
+---
 
 ### 也可以做Order的缓存功能，但是和Product的编写差不多，就先不重复的写一遍了。
 

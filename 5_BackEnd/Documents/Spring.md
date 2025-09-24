@@ -1,12 +1,13 @@
 # 项目创建
-
+```bash
 sudo apt install openjdk-17-jdk
 sudo apt install maven
+```
 
-java
+项目包是从 https://start.spring.io/ 直接建立。然后复制到linux上，  
 
-项目包是从 https://start.spring.io/ 直接建立。然后复制到linux上，不过也可以直接Linux指令创建:
-`curl https://start.spring.io/starter.tgz -d dependencies=web -d type=maven-project -d groupId=com.example -d artifactId=demo -d name=demo | tar -xzvf -`不过依赖挺难设置的，记不住。
+不过也可以直接Linux指令创建:
+`curl https://start.spring.io/starter.tgz -d dependencies=web -d type=maven-project -d groupId=com.example -d artifactId=demo -d name=demo | tar -xzvf -`不过起始依赖挺难设置的，记不住。
 
 # RESTful API设计规范
 

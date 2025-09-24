@@ -1,3 +1,5 @@
+# 记录一些bug
+
 org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize value of type `long` from Object value (token `JsonToken.START_OBJECT`)
 
 

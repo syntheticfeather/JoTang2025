@@ -2,7 +2,7 @@
 
 ### 第一部分：核心概念与本地准备
 
-在开始之前，我们先理解一下工作流程：
+我们先理解一下工作流程：
 
 1.  **编写 Dockerfile**：一个文本文件，包含了构建 Docker 镜像所需的所有指令。
 2.  **构建镜像 (Build Image)**：根据 `Dockerfile` 的指令，将你的应用代码、依赖和环境打包成一个独立的、可移植的镜像。
@@ -22,7 +22,7 @@ mvn clean package -DskipTests
 
 在项目的**根目录**下创建一个名为 `Dockerfile` 的文件（没有后缀）。这个文件是构建镜像的蓝图。
 
-我们将创建一个**两阶段构建**的 `Dockerfile`。它可以生成更小、更安全的生产镜像。
+我们准备创建一个**两阶段构建**的 `Dockerfile`。它可以生成更小、更安全的生产镜像。
 
 ```dockerfile
 # 第一阶段：构建阶段 (Builder Stage)
@@ -32,7 +32,7 @@ WORKDIR /app
 # 首先只复制pom.xml文件（利用Docker缓存层）
 COPY pom.xml .
 # 下载所有依赖（如果pom.xml没变，这一层会被缓存，极大加速后续构建）
-# 虽然说的缓存但是我一直没看到效果，每次build都下载一堆东西
+# 虽然说的是缓存，但是我一直没看到效果，每次build都下载一堆东西
 RUN mvn dependency:go-offline
 # 然后复制所有源代码
 COPY src ./src
@@ -80,13 +80,14 @@ docker images
 
 ---
 
-很多时候不太连的上
+**很多时候不太连的上**
 
 需要配置一下镜像源(从github上找的比较好的:
 [爬爬虾](https://github.com/tech-shrimp/docker_installer))
 ```bash
 sudo vi /etc/docker/daemon.json
 
+# 复制进去
 {
     "registry-mirrors": [
         "https://docker.m.daocloud.io",
@@ -95,6 +96,7 @@ sudo vi /etc/docker/daemon.json
     ]
 }
 
+:wq
 ```
 
 #### 步骤 4：在本地运行 Docker 容器测试
@@ -113,17 +115,34 @@ docker run -d -p 8080:8080 --name spring-app-container my-spring-app:1.0.0
 *   `-d`：让容器在**后台**运行（Detached mode）。
 *   `--name`：给容器起一个名字，方便管理。
 
-**测试：** 打开浏览器访问 `http://localhost:8080`。如果应用正常响应，说明镜像构建成功
+**测试：** 
+
+打开浏览器访问 `http://localhost:8080`。如果应用正常响应，说明镜像构建成功
+
+或者指令`docker ps`查看你命名的容器是否在。
+
+---
+
+**如果没有成功可以用以下指令进行排查:**
 
 **查看日志：**
 ```bash
 docker logs -f spring-app-container
 ```
 
+**如果不想用了:**
+
 **停止容器：**
 ```bash
 docker stop spring-app-container
 ```
+
+**删除容器:**
+
+```bash
+docker rm spring-app-container
+```
+
 
 ---
 
@@ -136,20 +155,29 @@ docker stop spring-app-container
 你不能直接把本地镜像复制到服务器，最佳实践是使用镜像仓库（Registry）作为中介。Docker Hub 是免费的公共仓库。
 
 1.  **注册 Docker Hub 账号**（如果你还没有）：https://hub.docker.com/
+
 2.  **在本地登录 Docker Hub**：
     ```bash
     sudo docker login
     ```
     输入你的用户名和密码。
+
+    **这一步也可能很卡，得用梯子**
+
+    ---
+
 3.  **重新标记你的镜像**，使其符合 Docker Hub 的命名规范（`你的用户名/镜像名:标签`）：
     ```bash
     sudo docker tag my-spring-app:1.0.0 your-dockerhub-username/my-spring-app:1.0.0
     ```
+    ---
 4.  **推送镜像到 Docker Hub**：
     ```bash
     sudo docker push your-dockerhub-username/my-spring-app:1.0.0
     ```
     推送成功后，你可以在 Docker Hub 网站的个人仓库里看到它。
+
+    可以下载**docker desktop**方便查看
 
 #### 步骤 2：在服务器上拉取并运行镜像
 
@@ -161,7 +189,11 @@ docker stop spring-app-container
     # 对于大多数Linux发行版
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh
-    sudo usermod -aG docker $USER # 将当前用户加入docker组，避免每次用sudo
+
+    # 将当前用户加入docker组，避免每次用sudo
+    # 并且后续使用docker安全进程这步也是必须的
+    sudo usermod -aG docker $USER 
+
     # 执行完 usermod 后，需要退出SSH再重新登录生效
     ```
 
@@ -195,11 +227,15 @@ docker stop spring-app-container
 
 ---
 
-# 总结
+# 小总结
 
-Dockerfile 书写
+**单纯的docker使用流程:**
 
-指令构建
+- 相应应用安装
+
+- Dockerfile 书写
+
+- 指令构建
 
 ```bash
 # 本地
@@ -213,12 +249,180 @@ DOcker pull iamfs/jotang2025-gcc-app:latest
 Docker run -d -p 80:8080 --name jotang2025-gcc-app-prod -v /host/path/to/logs:/app/logs -e "SPRING_PROFILES_ACTIVE=prod" iamfs/my-pro:1.0.0
 ```
 
-对缓存不用的镜像和容器清除
+# 更为强大的docker-compose。
+
+但是docker肯定不止这些，
+
+docker-compose是docker官方推出的一个编排工具，可以实现多个容器的编排，这是一个集成镜像部署的工具。
+
+## QUICKSTART
+
+### 编写一个ngnix的docker-compose.yml文件
+
+```yml
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_container
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./html:/usr/share/nginx/html
+    restart: always
+```
+
+这是一个ngnix的镜像，拉去后访问 http://localhost 即可看到nginx的欢迎页面。
+
+可以看到整体框架
+
+    version定义版本
+
+    services定义服务
+
+    每一个服务用一个名字定义，
+
+        服务内写拉取的镜像tag(images)
+
+        容器名称(ngnix_container)
+
+        还有映射的端口(ports)
+
+        挂载的脚本或者日志文件(volumes)
+
+        是否重启(restart)
+
+    还有一些:
+
+        环境配置(environment)，sql的创建用户我也不想在服务器自己建，怎么办呢？写这里面
+
+        运行指令(command)
+
+## 那么docker-compose比我们之前用单docker好在哪呢？
+
+### 环境配置
+
+    docker部署我们的spring项目时，
+
+    我们需要在服务器安装并配置sql和redis。
+
+    我们还要改配置文件里的连接ip地址。
+
+    并且还要开放端口，允许访问。
+
+**但是强大的docker-compose:**
+
+    直接使用docker-compose拉取镜像sql和镜像redis。
+
+    直接连接镜像sql和镜像redis
+
+    免去了服务器上配置环境的繁琐步骤
+
+### 多容器集成启动
+
+    docker进行容器运行时需要一个一个启动，
+
+~~宛如乐迪的**启动启动启动，还有这个**~~
+
+**但是强大的docker-compose:**
+
+    docker-compose up -d
+
+    一键启动所有容器，真正的一行代码，完整部署
+
+## 那我们来实践一下
+
+### 为我们的后端项目搭配镜像sql和镜像redis
+
+```yml
+# docker-compose-dev.yml
+version: '3.7'
+services:
+  app:
+    # 从hub上拉取你自己的项目镜像
+    image: iamfs/jotang2025-gcc-app:latest
+    # 如果你不想把你得项目放到hub上，那你可以把你得项目一起放到服务器，然后docker-compose手动进行镜像的生成和容器的运行操作
+    # build: .
+    container_name: my-app-dev
+    ports:
+      - "8080:8080"
+    # 关键：将本地代码目录“绑定挂载”到容器内，覆盖掉构建时复制的文件。
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      # mysql 配置
+      # mysql-db就是镜像sql
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/JoTang2025?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=gcc
+      - SPRING_DATASOURCE_PASSWORD=1234 
+      # redis 配置  
+      # 同理
+      - SPRING_REDIS_HOST=redis-cache  
+      - SPRING_REDIS_PASSWORD=1234  
+      - SPRING_REDIS_PORT=6379
+    depends_on:
+      - mysql-db
+      - redis-cache
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db-dev
+    environment:
+      MYSQL_ROOT_PASSWORD: my_strong_password
+      MYSQL_DATABASE: JoTang2025
+      MYSQL_USER: gcc
+      MYSQL_PASSWORD: 1234
+      # MYSQL_HOST: '%'
+    volumes:
+      - ./db-init:/docker-entrypoint-initdb.d  # 挂载初始化脚本目录
+      - mysql_data:/var/lib/mysql
+    # 映射端口：格式 - "宿主机端口:容器内端口"
+    ports:
+      - "3306:3306" # 可选，如果宿主机需要直接连接数据库才开放
+    # MySQL 8.x 的认证插件配置
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    restart: unless-stopped
+
+
+  redis-cache:
+    image: redis:6-alpine
+    container_name: redis-cache-dev
+    command: redis-server --requirepass 1234 --appendonly yes
+    ports:
+      - "6379:6379" # 暴露端口到本地
+    volumes:
+      - redis_data:/data
+
+volumes:
+  mysql_data:
+  redis_data:
+```
+
+把init-db和docker-compose一起复制到服务器
+
 
 ```bash
-docker rmi 镜像名/id
-docker rm 容器名/id
+docker-compose up -d
 ```
+
+我们就完成部署了，真正的可以直接运行的部署
+
+## 其他操作
+
+### 后期项目数据库改动时，可能需要删卷(删数据库)
+
+docker-compose down -v  # 删除容器同时删除卷
+
+### 更新的时候备份数据库
+
+docker exec mysql_container mysqldump -u root -p database_name > backup.sql
+
+然后放到init-db脚本文件夹里面，就可以下次启动时恢复数据库
+
 
 
 # docker指令表：
@@ -233,4 +437,3 @@ docker rm 容器名/id
 |docker ps -a |查看所有容器|
 |docker ps | 查看运行的容器| 
 |docker run -d -p 端口:容器端口 --name 容器名 镜像名 |运行容器|
-

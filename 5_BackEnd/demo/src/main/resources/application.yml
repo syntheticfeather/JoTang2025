@@ -8,7 +8,7 @@ spring:
   datasource:
     # JDBC 连接字符串
     # 格式: jdbc:mysql://<主机地址>:<端口>/<数据库名>?参数键值对
-    url: jdbc:mysql://host.docker.internal:3306/JoTang2025?useSSL=false
+    url: jdbc:mysql://mysql-db:3306/JoTang2025?useSSL=false
     # 数据库用户名
     username: gcc
     # 数据库密码
@@ -22,7 +22,7 @@ spring:
     #   idle-timeout: 600000      # 空闲连接存活最大时间（毫秒）
     #   max-lifetime: 1800000     # 连接最大存活时间（毫秒）
   redis:
-    host: host.docker.internal  # Redis服务器地址
+    host: redis-cache  # Redis服务器地址
     port: 6379       # Redis服务器端口
     password:        # Redis密码，如果没有设置密码则为空
     database: 0      # 数据库索引（0-15）

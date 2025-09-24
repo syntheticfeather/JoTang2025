@@ -1,8 +1,15 @@
 package com.example.demo.config;
 
+import java.time.Duration;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisPassword;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -17,12 +24,42 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class RedisConfig {
 
+    @Value("${spring.redis.host:localhost}")
+    private String redisHost;
+
+    @Value("${spring.redis.port:6379}")
+    private int redisPort;
+
+    @Value("${spring.redis.password:}")
+    private String redisPassword;
+
+    @Value("${spring.redis.database:0}")
+    private int database;
+
+    // 配置连接工厂
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+    public RedisConnectionFactory redisConnectionFactory() {
+        RedisStandaloneConfiguration config = new RedisStandaloneConfiguration();
+        config.setHostName(redisHost);
+        config.setPort(redisPort);
+        config.setPassword(RedisPassword.of(redisPassword));
+        config.setDatabase(database);
+
+        LettuceClientConfiguration clientConfig = LettuceClientConfiguration.builder()
+                .commandTimeout(Duration.ofSeconds(2))
+                .build();
+
+        return new LettuceConnectionFactory(config, clientConfig);
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
         // 我们自己的RedisTemplate
         RedisTemplate<String, Object> template = new RedisTemplate<>();
-        // 连上工厂
-        template.setConnectionFactory(factory);
+
+        RedisConnectionFactory factory = redisConnectionFactory();
+        // 连上工厂        
+        template.setConnectionFactory(factory); // 使用上面配置的factory
 
         // 使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
         Jackson2JsonRedisSerializer<Object> serializer = new Jackson2JsonRedisSerializer<>(Object.class);

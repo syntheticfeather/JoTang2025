@@ -15,7 +15,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=1234 
       # redis 配置  
       - SPRING_REDIS_HOST=redis-cache  
-      - SPRING_REDIS_PASSWORD=1234  
+      - SPRING_REDIS_PASSWORD=
       - SPRING_REDIS_PORT=6379
     depends_on:
       - mysql-db
@@ -47,7 +47,7 @@ services:
   redis-cache:
     image: redis:6-alpine
     container_name: redis-cache-dev
-    command: redis-server --requirepass 1234 --appendonly yes
+    command: redis-server --appendonly yes
     ports:
       - "6379:6379" # 暴露端口到本地
     volumes:

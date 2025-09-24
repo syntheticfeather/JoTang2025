@@ -17,7 +17,6 @@ import com.example.demo.entity.ApiResponse;
 import com.example.demo.entity.Order;
 import com.example.demo.service.OrderService;
 
-import ch.qos.logback.core.status.Status;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
@@ -31,7 +30,6 @@ public class OrderController {
     // private AlipayService alipayService;
     // @Autowired
     // private ProductService productService;
-    
     // 创建订单
     @PostMapping("/add")
     public ResponseEntity<ApiResponse<Order>> addOrder(@RequestBody Order order, HttpServletRequest request) {
@@ -124,4 +122,4 @@ public class OrderController {
 //     orderUpdateRequest.setStatus("已下单");
 //     orderService.updateOrder(orderUpdateRequest);
 //     return ResponseEntity.ok(ApiResponse.success(null));
-    // }
+//     }

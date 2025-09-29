@@ -1,15 +1,19 @@
-package com.example.spring_test;
+package com.example.spring_test.AnnotationConfig;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.example.spring_test.User;
+
+// 配给AppConfig用
+@Component
 public class UserService {
 
+    @Autowired
     private MailService mailService;
-
-    public void setMailService(MailService mailService) {
-        this.mailService = mailService;
-    }
 
     private List<User> users = new ArrayList<>(List.of( // users:
             new User(1, "bob@example.com", "password", "Bob"), // bob

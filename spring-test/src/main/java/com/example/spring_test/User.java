@@ -2,12 +2,12 @@ package com.example.spring_test;
 
 public class User {
 
-    private Integer id;
+    private long id;
     private String email;
     private String password;
     private String name;
 
-    public User(Integer id, String email, String password, String name) {
+    public User(long id, String email, String password, String name) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -15,11 +15,11 @@ public class User {
     }
 
     // Getter and Setter for id
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(long id) {
         this.id = id;
     }
 

@@ -1,11 +1,15 @@
-package com.example.spring_test;
+package com.example.spring_test.AnnotationConfig;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
+import org.springframework.stereotype.Component;
 
+import com.example.spring_test.User;
+
+// 配给UserService
+@Component
 public class MailService {
 
     private ZoneId zoneId = ZoneId.systemDefault();

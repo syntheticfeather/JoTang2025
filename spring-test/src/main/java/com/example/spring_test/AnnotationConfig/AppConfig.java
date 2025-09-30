@@ -17,8 +17,18 @@ public class AppConfig {
         ApplicationContext context = new AnnotationConfigApplicationContext(AppConfig.class);
         UserService userService = context.getBean(UserService.class);
         MeddleComponent component = context.getBean(MeddleComponent.class);
+
+        // 测试普通Bean对象
         component.doSomething();
         User user = userService.login("bob@example.com", "password");
         System.out.println(user.getName());
+
+        // 
+        KeyBean keyBean = context.getBean(KeyBean.class);
+        System.out.println(keyBean.key);
+
+        // 测试Bean对象的字段注入
+        MailService mailService = context.getBean(MailService.class);
+        mailService.getKey();
     }
 }

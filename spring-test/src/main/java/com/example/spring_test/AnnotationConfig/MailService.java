@@ -4,13 +4,18 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.example.spring_test.User;
 
 // 配给UserService
 @Component
+
 public class MailService {
+
+    @Value("#{keyBean.key}")
+    private String key;
 
     private ZoneId zoneId = ZoneId.systemDefault();
 
@@ -30,4 +35,9 @@ public class MailService {
         System.err.println(String.format("Welcome, %s!", user.getName()));
 
     }
+
+    public void getKey() {
+        System.out.println("key: " + key);
+    }
+
 }

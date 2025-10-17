@@ -8,7 +8,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD) // 注解用于方法
 @Retention(RetentionPolicy.RUNTIME) // 运行时保留
 public @interface MyAnnotation {
-
     String value() default "";
 }
 

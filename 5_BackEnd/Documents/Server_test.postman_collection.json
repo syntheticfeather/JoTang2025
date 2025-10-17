@@ -1,0 +1,555 @@
+{
+	"info": {
+		"_postman_id": "4920b9cb-816c-4321-81cb-9463436d1e6e",
+		"name": "Server_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47211071",
+		"_collection_link": "https://syntheticfeather-6774817.postman.co/workspace/gcc's-Workspace~c3731ad6-2e84-4b56-8227-db3afab431c5/collection/47211071-4920b9cb-816c-4321-81cb-9463436d1e6e?action=share&source=collection_link&creator=47211071"
+	},
+	"item": [
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "AddOrder Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwidXNlcm5hbWUiOiJmaXJzdF9hZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Nzc0ODg5MSwiZXhwIjoxNzU4MzUzNjkxfQ.KGWfHrY3y4MqCk8PvrXRzs97E9v4wP4QKborv6hW8Ef9L-zuCmEsz2CazCNUZwH8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productId\": 9\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/orders",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetOrder Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJnY2MyIiwiaWF0IjoxNzU3NjQ5MjkwLCJleHAiOjE3NTgyNTQwOTB9.VL-ppQjAaZU-6kSiGFfLF6HgyWGEaSCcWkGXkJZO6RmY-NBgbCH_Mhhjr9cgJWfD",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/order/1",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"order",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CancelOrder Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwidXNlcm5hbWUiOiJmaXJzdF9hZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Nzc0ODg5MSwiZXhwIjoxNzU4MzUzNjkxfQ.KGWfHrY3y4MqCk8PvrXRzs97E9v4wP4QKborv6hW8Ef9L-zuCmEsz2CazCNUZwH8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/orders/4/cancel",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"orders",
+								"4",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteOrder Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwidXNlcm5hbWUiOiJmaXJzdF9hZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Nzc0ODg5MSwiZXhwIjoxNzU4MzUzNjkxfQ.KGWfHrY3y4MqCk8PvrXRzs97E9v4wP4QKborv6hW8Ef9L-zuCmEsz2CazCNUZwH8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/orders/4?",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"orders",
+								"4"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MyOrders Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwidXNlcm5hbWUiOiJmaXJzdF9hZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Nzc0ODg5MSwiZXhwIjoxNzU4MzUzNjkxfQ.KGWfHrY3y4MqCk8PvrXRzs97E9v4wP4QKborv6hW8Ef9L-zuCmEsz2CazCNUZwH8",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/orders/my",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"orders",
+								"my"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "register Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJDbGFpbXMiOnsidXNlcm5hbWUiOjN9LCJleHAiOjE3NTQxMzAzNTR9.9g9giq6pVpdgm3IVZ1KvY_wIlI4A-fazR0AcYFj",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"gcc3\",\r\n  \"password\": \"123456\"\r\n}\r\n\r\n// {\r\n//   \"username\": \"sec_admin\",\r\n//   \"password\": \"123456\",\r\n//   \"role\" : \"ADMIN\",\r\n//   \"adminRegister\" : \"654321\"\r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/users/register",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"username\": \"gcc3\",\r\n   \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/users/login",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "me Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJnY2MyIiwiaWF0IjoxNzU3NjQ2OTc2LCJleHAiOjE3NTgyNTE3NzZ9.fGhx0X_cw-lzttloVGL66BJyt-7KEqGun64Uv4AMdtA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/users/me",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ResetPWD Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJnY2MyIiwiaWF0IjoxNzU3NjQ5MjkwLCJleHAiOjE3NTgyNTQwOTB9.VL-ppQjAaZU-6kSiGFfLF6HgyWGEaSCcWkGXkJZO6RmY-NBgbCH_Mhhjr9cgJWfD",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"oldPassword\": \"123456\",\r\n  \"newPassword\": \"654321\",\r\n  \"confirmPassword\": \"654321\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/users/reset",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"users",
+								"reset"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpgradeAdmin Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwidXNlcm5hbWUiOiJmaXJzdF9hZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Nzc0ODg5MSwiZXhwIjoxNzU4MzUzNjkxfQ.KGWfHrY3y4MqCk8PvrXRzs97E9v4wP4QKborv6hW8Ef9L-zuCmEsz2CazCNUZwH8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/users/upgrade?userId=2",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"users",
+								"upgrade"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUser Copy",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwidXNlcm5hbWUiOiJmaXJzdF9hZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Nzc0ODg5MSwiZXhwIjoxNzU4MzUzNjkxfQ.KGWfHrY3y4MqCk8PvrXRzs97E9v4wP4QKborv6hW8Ef9L-zuCmEsz2CazCNUZwH8",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"first_admin0\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/users/update",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"users",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "AddProduct Copy",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJnY2MyIiwiaWF0IjoxNzU3NjQ5MjkwLCJleHAiOjE3NTgyNTQwOTB9.VL-ppQjAaZU-6kSiGFfLF6HgyWGEaSCcWkGXkJZO6RmY-NBgbCH_Mhhjr9cgJWfD",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"product1\",\r\n  \"description\": \"耗电小\",\r\n  \"type\": \"代取需求\",\r\n  \"price\": 100.00,\r\n  \"publisherId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/products",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProduct Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIyIiwidXNlcm5hbWUiOiJnY2MyIiwiaWF0IjoxNzU3NjQ5MjkwLCJleHAiOjE3NTgyNTQwOTB9.VL-ppQjAaZU-6kSiGFfLF6HgyWGEaSCcWkGXkJZO6RmY-NBgbCH_Mhhjr9cgJWfD",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/products?id=8",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateProduct Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 5,\r\n    \"title\": \"全新笔记本电\",\r\n    \"description\": \"九成新，2022年购入...\",\r\n    \"type\": \"二手物品\",\r\n    \"status\": \"已售出\",\r\n    \"price\": 2500.00,\r\n    \"publisherId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/products",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductList Copy",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI3IiwidXNlcm5hbWUiOiJzZWNfYWRtaW4iLCJyb2xlIjoiQURNSU4iLCJpYXQiOjE3NTc4MTgxMjcsImV4cCI6MTc1ODQyMjkyN30.BziMmcGHxZ8YLP8Pj6VZFdBnt1TaFgHfcI32F4Km3JqjB223N5FOx-d9Y8r7GF6a",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/products/list",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"products",
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiI2IiwidXNlcm5hbWUiOiJmaXJzdF9hZG1pbiIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc1Nzc0NjU2NSwiZXhwIjoxNzU4MzUxMzY1fQ.j8H13F64w0n5QKuWIJbCgxiNHbjp-Qd5IWZebZ9zf4KVS9-8wxrvC75OhcyKsKaL",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"hours\": 24,  \r\n    \"status\": \"未售出\",\r\n    \"sortField\": \"publish_time\",\r\n    \"sortDirection\": \"desc\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/products/filter",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"products",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_SERVER_URL}}/products?id=8",
+							"host": [
+								"{{BASE_SERVER_URL}}"
+							],
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_SERVER_URL",
+			"value": ""
+		}
+	]
+}

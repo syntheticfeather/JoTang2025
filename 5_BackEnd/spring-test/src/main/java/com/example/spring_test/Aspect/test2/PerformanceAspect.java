@@ -3,6 +3,7 @@ package com.example.spring_test.Aspect.test2;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,4 +18,10 @@ public class PerformanceAspect {
         System.out.println(performanceAnnotation.value() + " took " + (end - start) + " ms");
         return result;
     }
+
+    @Before("within(com.example.spring_test.Aspect.test2.*)")
+    public void logPerformanceForUserService() {
+        System.out.println("[WITHASPECT] start");
+    }
+
 }

@@ -208,6 +208,7 @@ git stash
 
 
 ## 克隆远程仓库:
+
 `git clone https://github.com/syntheticfeather(your_name)/test(your_repo).git`
 
     当然也不一定是自己的仓库

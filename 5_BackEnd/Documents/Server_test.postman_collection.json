@@ -549,7 +549,7 @@
 	"variable": [
 		{
 			"key": "BASE_SERVER_URL",
-			"value": ""
+			"value": "http://47.99.216.189:8080"
 		}
 	]
 }

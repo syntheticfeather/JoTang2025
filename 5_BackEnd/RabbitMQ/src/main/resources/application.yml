@@ -1,0 +1,29 @@
+spring:
+    application:
+        name: RabbitMQ
+    rabbitmq:
+        host: localhost
+        port: 5672
+        username: admin
+        password: admin123
+        virtual-host: /
+        # 开启手动 ACK（推荐用于人工审核）
+        listener:
+            simple:
+                acknowledge-mode: manual  # 手动确认
+                concurrency: 3            # 消费者最小并发数
+                max-concurrency: 10       # 最大并发数
+    datasource:
+        url: jdbc:postgresql://localhost:5432/mydb
+        username: user
+        password: password
+        driver-class-name: org.postgresql.Driver
+
+mybatis:
+    mapper-locations: classpath:mapper/*.xml
+    configuration:
+        map-underscore-to-camel-case: true
+        
+logging:
+  level:
+    com.example.orderemail.mapper: debug

@@ -1,0 +1,40 @@
+# cd 5_BackEnd/RabbitMQ
+# http://localhost:15672/
+services:
+  rabbitmq:
+    image: rabbitmq:4.2.0-management
+    container_name: rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin123
+      # 可选：自定义 vhost
+      # RABBITMQ_DEFAULT_VHOST: my_vhost
+    ports:
+      - "5672:5672"   # AMQP 客户端通信端口
+      - "15672:15672" # Web 管理界面
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - rabbitmq_log:/var/log/rabbitmq
+    networks:
+      - messaging
+  postgres:
+    image: postgres:16-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: orderdb
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  rabbitmq_data:
+  rabbitmq_log:
+  postgres_data:
+
+networks:
+  messaging:
+    driver: bridge

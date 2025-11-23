@@ -1,22 +1,19 @@
 package com.example.RabbitMQ.mq.producer;
 
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.stereotype.Component;
-
 import com.example.RabbitMQ.config.RabbitMQConfig;
 import com.example.RabbitMQ.entity.Order;
+import com.example.RabbitMQ.utils.RabbitUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class OrderProducer {
 
-    private final RabbitTemplate rabbitTemplate;
-
-    public OrderProducer(RabbitTemplate rabbitTemplate) {
-        this.rabbitTemplate = rabbitTemplate;
-    }
+    @Autowired
+    private RabbitUtil rabbitUtil;
 
     public void sendOrderCreated(Order order) {
-        rabbitTemplate.convertAndSend(RabbitMQConfig.ORDER_QUEUE, order);
+        rabbitUtil.send(RabbitMQConfig.ORDER_QUEUE, RabbitMQConfig.ORDER_ROUTING_KEY, order);
         System.out.println(" [x] Sent OrderCreated event: " + order.getId());
     }
 }

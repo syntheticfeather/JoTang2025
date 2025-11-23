@@ -1,5 +1,6 @@
 package com.example.RabbitMQ.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -10,13 +11,10 @@ import com.example.RabbitMQ.mq.producer.OrderProducer;
 @Service
 public class OrderService {
 
-    private final OrderMapper orderMapper;
-    private final OrderProducer orderProducer;
-
-    public OrderService(OrderMapper orderMapper, OrderProducer orderProducer) {
-        this.orderMapper = orderMapper;
-        this.orderProducer = orderProducer;
-    }
+    @Autowired
+    private  OrderMapper orderMapper;
+    @Autowired
+    private  OrderProducer orderProducer;
 
     @Transactional
     public Order createOrder(Order order) {

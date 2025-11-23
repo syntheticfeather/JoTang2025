@@ -2,8 +2,10 @@ package com.example.RabbitMQ.mq.consumer;
 
 import java.io.IOException;
 
+import com.example.RabbitMQ.utils.RabbitUtil;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.RabbitMQ.config.RabbitMQConfig;
@@ -13,9 +15,16 @@ import com.rabbitmq.client.Channel;
 @Component
 public class EmailConsumer {
 
+    @Autowired
+    private RabbitUtil rabbitUtil;
+    /*
+     * 监听 order.created 队列，收到消息后，调用 handleOrderCreated 方法处理
+     * 这里的 message 就是 RabbitMQ 传递过来的消息，包含了 delivery tag
+     */
     @RabbitListener(queues = RabbitMQConfig.ORDER_QUEUE)
     public void handleOrderCreated(Order order, Message message, Channel channel) throws IOException {
-        long tag = message.getMessageProperties().getDeliveryTag();
+        // 获取 delivery tag,这是 RabbitMQ 用来标识消息的唯一 ID
+        long tag = rabbitUtil.getTag(message);
 
         try {
             // 模拟发邮件（实际可调用邮件服务）

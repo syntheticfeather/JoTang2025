@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>混合模式 Demo</title>
+    <!-- 使用原生 fetch，无需引入 jQuery 或 axios -->
+</head>
+<body>
+<h2>用户信息</h2>
+<button id="loadUserBtn">加载用户信息</button>
+<div id="userInfo" style="margin-top: 20px; color: green;"></div>
+
+<script>
+    document.getElementById('loadUserBtn').addEventListener('click', function() {
+        // 调用后端 API
+        fetch('/api/user/current')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('userInfo').innerHTML =
+                    `<p>欢迎，<strong>${data.name}</strong>！你的角色是：${data.role}</p>`;
+            })
+            .catch(err => {
+                console.error('加载失败:', err);
+                document.getElementById('userInfo').innerHTML = '<p style="color:red;">加载失败</p>';
+            });
+    });
+</script>
+</body>
+</html>

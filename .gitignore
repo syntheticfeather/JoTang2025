@@ -3,3 +3,6 @@
 .idea/misc.xml
 .idea/modules.xml
 .idea/vcs.xml
+*.class
+*.vscode
+*.idea
